@@ -1,0 +1,29 @@
+[BEGINVDF]
+Comment=Free aiming patch for Gothic and Gothic 2 NotR%%NGothic Free Aim <http://github.com/szapp/GothicFreeAim>, Copyright (C) 2016-2018  mud-freak (@szapp), subject to MIT License%%NNinja <http://tiny.cc/GothicNinja>
+VDFName=.\Ninja_GFA.vdf
+
+[FILES]
+README_GFA.md
+
+; Resources (list the specific files from _work here)
+_work\Data\Anims\_compiled\Humans*_Aim_Hurt.man
+_work\Data\Anims\_compiled\Humans*_Aim_Move*.man
+_work\Data\Textures\_compiled\Reticle*-C.tex
+
+; Script files
+Ninja\Ikarus\* -r
+Ninja\LeGo\* -r
+Ninja\GFA\* -r
+
+; Ninja files
+*.patch
+
+[EXCLUDE]
+_work\Data\Scripts\* -r
+*.vm
+*.vdf
+*.bat
+
+[INCLUDE]
+
+[ENDVDF]
