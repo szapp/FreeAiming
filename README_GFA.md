@@ -1,5 +1,5 @@
-Free Aiming
-===========
+Free Aiming Patch
+=================
 
 Forked from https://github.com/szapp/NinjaPatchTemplate
 
