@@ -570,7 +570,7 @@ IF "%ANIMATION%" GTR "0" (
 )
 :: Separate IF because of delayed extension
 IF "%ANIMATION%" GTR "0" (
-    (ECHO Model ^("Hus"^))>                                                   "%ANIMF%" || GOTO ERR
+    (ECHO Model ^("HuS"^))>                                                   "%ANIMF%" || GOTO ERR
     (ECHO {)>>                                                                "%ANIMF%" || GOTO ERR
     (ECHO/)>>                                                                 "%ANIMF%" || GOTO ERR
     (ECHO     ^/^/ REGISTER NEW ARMOR HERE)>>                                 "%ANIMF%" || GOTO ERR
@@ -578,7 +578,7 @@ IF "%ANIMATION%" GTR "0" (
     (ECHO     aniEnum)>>                                                      "%ANIMF%" || GOTO ERR
     (ECHO     {)>>                                                            "%ANIMF%" || GOTO ERR
     (ECHO/)>>                                                                 "%ANIMF%" || GOTO ERR
-    (ECHO         ^/^/ Add NEW ANIMATIONS HERE)>>                             "%ANIMF%" || GOTO ERR
+    (ECHO         ^/^/ ADD NEW ANIMATIONS HERE)>>                             "%ANIMF%" || GOTO ERR
     (ECHO/)>>                                                                 "%ANIMF%" || GOTO ERR
     (ECHO     })>>                                                            "%ANIMF%" || GOTO ERR
     (ECHO })>>                                                                "%ANIMF%" || GOTO ERR
