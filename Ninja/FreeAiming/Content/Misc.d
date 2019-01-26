@@ -1,7 +1,7 @@
 /*
  * Create menu item from script instance name
  */
-func int Ninja_GFA_CreateMenuItem(var string scriptName) {
+func int Ninja_FreeAiming_CreateMenuItem(var string scriptName) {
     const int zCMenuItem__Create_G1 = 5052784; //0x4D1970
     const int zCMenuItem__Create_G2 = 5105600; //0x4DE7C0
 
@@ -23,7 +23,7 @@ func int Ninja_GFA_CreateMenuItem(var string scriptName) {
 /*
  * Guess localization (0 = EN, 1 = DE, 2 = PL, 3 = RU)
  */
-func int Ninja_GFA_GuessLocalization() {
+func int Ninja_FreeAiming_GuessLocalization() {
     var int pan; pan = MEM_GetSymbol("MOBNAME_PAN");
     if (pan) {
         var zCPar_Symbol panSymb; panSymb = _^(pan);
@@ -43,7 +43,7 @@ func int Ninja_GFA_GuessLocalization() {
 /*
  * C_CanNpcCollideWithSpell hook (Gothic 2 only)
  */
-func int Ninja_GFA_SPLCOLLIDE(var int spellType) {
+func int Ninja_FreeAiming_SPLCOLLIDE(var int spellType) {
     // Do not damage beyond maximum fighting range (AI does not react)
     if (Npc_GetDistToNpc(self, other) > FIGHT_DIST_CANCEL) {
         return /*COLL_DONOTHING*/ 0;

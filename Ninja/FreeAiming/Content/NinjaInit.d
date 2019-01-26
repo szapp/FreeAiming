@@ -1,5 +1,5 @@
 /*
- * Call this function (from the function "Ninja_GFA_Init" below) to initialize LeGo packages.
+ * Call this function (from the function "Ninja_FreeAiming_Init" below) to initialize LeGo packages.
  *
  * It ensures that all necessary LeGo packages will be loaded without breaking already loaded LeGo packages.
  *
@@ -8,7 +8,7 @@
  *
  * Do not modify this function in any way!
  */
-func void Ninja_GFA_MergeLeGoFlags(var int flags) {
+func void Ninja_FreeAiming_MergeLeGoFlags(var int flags) {
     const int legoInit    = -1; // Prior initialization state
     const int initialized =  0; // Once per session
     var   int loaded;           // Once per game save
@@ -21,7 +21,7 @@ func void Ninja_GFA_MergeLeGoFlags(var int flags) {
 /*
  * Menu initialization function called by Ninja every time a menu is opened
  */
-func void Ninja_GFA_Menu(var int menuPtr) {
+func void Ninja_FreeAiming_Menu(var int menuPtr) {
     MEM_InitAll();
 
     // Get menu and menu item list, corresponds to the contents of C_MENU_DEF.items[]
@@ -34,7 +34,7 @@ func void Ninja_GFA_Menu(var int menuPtr) {
 
         // Guess language
         var string itm1Str; var string itm2Str;
-        var int loc; loc = Ninja_GFA_GuessLocalization();
+        var int loc; loc = Ninja_FreeAiming_GuessLocalization();
         if (loc == 0) {
             itm1Str = "MENUITEM_OPT_EN_GFA";
             itm2Str = "MENUITEM_OPT_EN_GFA_CHOICE";
@@ -56,8 +56,8 @@ func void Ninja_GFA_Menu(var int menuPtr) {
 
         // If the new ones do not exist yet, create them the first time
         if (!itm1) {
-            itm1 = Ninja_GFA_CreateMenuItem(itm1Str);
-            itm2 = Ninja_GFA_CreateMenuItem(itm2Str);
+            itm1 = Ninja_FreeAiming_CreateMenuItem(itm1Str);
+            itm2 = Ninja_FreeAiming_CreateMenuItem(itm2Str);
 
             // Also adjust vertical positions of the menu items
             var zCMenuItem itm;
@@ -90,15 +90,15 @@ func void Ninja_GFA_Menu(var int menuPtr) {
 /*
  * Initialization function called by Ninja after "Init_Global" (G2) / "Init_<Levelname>" (G1)
  */
-func void Ninja_GFA_Init() {
+func void Ninja_FreeAiming_Init() {
     // Wrapper for "LeGo_Init" to ensure correct LeGo initialization without breaking the mod
-    Ninja_GFA_MergeLeGoFlags(GFA_LEGO_FLAGS);
+    Ninja_FreeAiming_MergeLeGoFlags(GFA_LEGO_FLAGS);
 
     // Initialize GFA
     GFA_Init(GFA_ALL & ~GFA_REUSE_PROJECTILES);
 
     // Inject changes into C_CanNpcCollideWithSpell
     if (GOTHIC_BASE_VERSION == 2) {
-        HookDaedalusFuncS("C_CanNpcCollideWithSpell", "Ninja_GFA_SPLCOLLIDE");
+        HookDaedalusFuncS("C_CanNpcCollideWithSpell", "Ninja_FreeAiming_SPLCOLLIDE");
     };
 };
