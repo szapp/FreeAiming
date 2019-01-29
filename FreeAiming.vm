@@ -1,5 +1,5 @@
 [BEGINVDF]
-Comment=Free aiming patch for Gothic and Gothic 2 NotR%%NGothic Free Aim <http://github.com/szapp/GothicFreeAim>, Copyright (C) 2016-2018  mud-freak (@szapp), subject to MIT License
+Comment=Free aiming patch for Gothic and Gothic 2 NotR%%NGothic Free Aim, Copyright (C) 2016-2018  mud-freak (@szapp), subject to MIT License%%N<http://github.com/szapp/GothicFreeAim>
 VDFName=.\FreeAiming.vdf
 
 [FILES]
