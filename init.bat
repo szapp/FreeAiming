@@ -1,41 +1,23 @@
-:: Initialize new Ninja patch
+:: Initialize new patch with Ninja
 @ECHO OFF
 SET PAGE=0
 SET PAGES_MAX=5
 
 CALL :SHOWHEADER
 
-IF NOT EXIST %~dp0code_1C47577B.patch (
-    ECHO ERROR: Patch file missing: %~dp0code_1C47577B.patch
-    PAUSE > NUL
-    CLS
-    EXIT /B 1
-)
-IF NOT EXIST %~dp0code_CB86CAC3.patch (
-    ECHO ERROR: Patch file missing: %~dp0code_CB86CAC3.patch
-    PAUSE > NUL
-    CLS
-    EXIT /B 1
-)
-IF NOT EXIST %~dp0code_EFD8A07B.patch (
-    ECHO ERROR: Patch file missing: %~dp0code_EFD8A07B.patch
-    PAUSE > NUL
-    CLS
-    EXIT /B 1
-)
-
 ECHO Before we start...
 ECHO/
 ECHO Disclaimer
 ECHO ==========
 ECHO/
-ECHO Please be aware that creating a Ninja patch is not a one time
-ECHO effort. You sign up for continuous development on your part!
-ECHO Every time a new version of LeGo or similar is released each
+ECHO Please be aware that creating a patch that uses Ninja is not a
+ECHO one time effort. You sign up for continuous development on your
+ECHO part!
+ECHO Every time a new version of Ikarus or LeGo is released each
 ECHO patch needs to be updated to stay compatible with mods as well
 ECHO as with other patches. If you release a patch upon the world
 ECHO you need to be ready to create new versions of it every once in
-ECHO a while.
+ECHO a while (given your patch uses Ikarus and/or LeGo).
 ECHO/
 ECHO The easiest way to do so is to star/watch the patch template on
 ECHO GitHub ^<https://github.com/szapp/NinjaPatchTemplate^>, as it
@@ -151,10 +133,9 @@ ECHO A patch deploys different ninjas that infiltrate the game to
 ECHO inject changes. There is one ninja for each type of parser.
 ECHO Each of them follows an SRC file (exceptions: ani and OU).
 ECHO/
-ECHO Because, by default, Ninja patches are compatible with both
-ECHO Gothic 1 and Gothic 2, you can have (for each ninja) a single
-ECHO SRC file used for both games or separate SRC files for each
-ECHO game.
+ECHO Because, by default, patches are compatible with both Gothic 1
+ECHO and Gothic 2, you can have (for each ninja) a single SRC file
+ECHO used for both games or separate SRC files for each game.
 ECHO/
 ECHO Below, choose the ninjas you need (i.e. SRC files).
 ECHO/
@@ -195,8 +176,8 @@ IF "%IKARUS%" == "N" GOTO LEGO_CONT
 IF "%IKARUS%" == "n" GOTO LEGO_CONT
 IF "%IKARUS%" == "?" (
     ECHO/
-    ECHO If you do not know what Ikarus is you should not be tackling
-    ECHO a Ninja patch, but instead start with basic modding. Bye.
+    ECHO If you do not know what Ikarus is you are not ready for Ninja.
+    ECHO You should start with basic modding first. Bye.
     ECHO/
     GOTO QUIT
 ) ELSE (
@@ -215,8 +196,8 @@ IF "%LEGO%" == "N" GOTO LEGO_CONT
 IF "%LEGO%" == "n" GOTO LEGO_CONT
 IF "%LEGO%" == "?" (
     ECHO/
-    ECHO If you do not know what LeGo is you should not be tackling
-    ECHO a Ninja patch, but instead start with basic modding. Bye.
+    ECHO If you do not know what LeGo is you are not ready for Ninja.
+    ECHO You should start with basic modding first. Bye.
     ECHO/
     GOTO QUIT
 ) ELSE (
@@ -585,37 +566,34 @@ IF "%ANIMATION%" GTR "0" (
 )
 
 ECHO Write VDFS VM script
-(ECHO [BEGINVDF])>                                                            "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO Comment=%SHORT_DESCR%%%%%NNinja ^<http://tiny.cc/GothicNinja^>)>>       "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO VDFName=.\Ninja_%NAME%.vdf)>>                                           "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO/)>>                                                                     "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO [FILES])>>                                                              "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO README_%NAME%.md)>>                                                     "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO/)>>                                                                     "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO ; Resources ^(list the specific files from _work here^))>>              "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO ; _work\* -r)>>                                                         "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO/)>>                                                                     "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO ; Script files)>>                                                       "%~dp0Ninja_%NAME%.vm" || GOTO ERR
+(ECHO [BEGINVDF])>                                                            "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO Comment=%SHORT_DESCR%)>>                                                "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO VDFName=.\%NAME%.vdf)>>                                                 "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO/)>>                                                                     "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO [FILES])>>                                                              "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO README_%NAME%.md)>>                                                     "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO/)>>                                                                     "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO ; Resources ^(list the specific files from _work here^))>>              "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO ; _work\* -r)>>                                                         "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO/)>>                                                                     "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO ; Script files)>>                                                       "%~dp0%NAME%.vm" || GOTO ERR
 IF "%IKARUS%" == "y" (
-    (ECHO Ninja\Ikarus\* -r)>>                                                "%~dp0Ninja_%NAME%.vm" || GOTO ERR
+    (ECHO Ninja\Ikarus\* -r)>>                                                "%~dp0%NAME%.vm" || GOTO ERR
     IF "%LEGO%" == "y" (
-        (ECHO Ninja\LeGo\* -r)>>                                              "%~dp0Ninja_%NAME%.vm" || GOTO ERR
+        (ECHO Ninja\LeGo\* -r)>>                                              "%~dp0%NAME%.vm" || GOTO ERR
     )
 )
-(ECHO Ninja\%NAME%\* -r)>>                                                    "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO/)>>                                                                     "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO ; Ninja files)>>                                                        "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO *.patch)>>                                                              "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO/)>>                                                                     "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO [EXCLUDE])>>                                                            "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO _work\Data\Scripts\* -r)>>                                              "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO *.vm)>>                                                                 "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO *.vdf)>>                                                                "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO *.bat)>>                                                                "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO/)>>                                                                     "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO [INCLUDE])>>                                                            "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO/)>>                                                                     "%~dp0Ninja_%NAME%.vm" || GOTO ERR
-(ECHO [ENDVDF])>>                                                             "%~dp0Ninja_%NAME%.vm" || GOTO ERR
+(ECHO Ninja\%NAME%\* -r)>>                                                    "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO/)>>                                                                     "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO [EXCLUDE])>>                                                            "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO _work\Data\Scripts\* -r)>>                                              "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO *.vm)>>                                                                 "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO *.vdf)>>                                                                "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO *.bat)>>                                                                "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO/)>>                                                                     "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO [INCLUDE])>>                                                            "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO/)>>                                                                     "%~dp0%NAME%.vm" || GOTO ERR
+(ECHO [ENDVDF])>>                                                             "%~dp0%NAME%.vm" || GOTO ERR
 
 ECHO Write Readme
 (ECHO %NAME%)>                                                                "%~dp0README_%NAME%.md" || GOTO ERR
@@ -693,7 +671,7 @@ ECHO %ITER%. Build the Patch
 SET /A ITER+=1
 ECHO    In GothicVDFS click '^(Builder^)' and then 'Open Script'.
 ECHO    Navigate to and open
-ECHO    %~dp0Ninja_%NAME%.vm
+ECHO    %~dp0%NAME%.vm
 ECHO    Adjust 'Root Path' to the same directory.
 ECHO    Confirm the contents of the fields and click 'Build volume'.
 ECHO/
@@ -753,7 +731,7 @@ loaded without breaking already loaded LeGo packages.)>>                      "%
             (ECHO  *)>>                                                       "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
             (ECHO  * Caution: When re-using this function elsewhere, it is ^
 important to rename it to prevent clashes!)>>                                 "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO  * Each Ninja patch that needs it, has to have their own ^
+            (ECHO  * Each patch that needs it, has to have their own ^
 function with a unique name. Otherwise they cannot be stacked.)>>             "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
             (ECHO  *)>>                                                       "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
             (ECHO  * Do not modify this function in any way!)>>               "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
@@ -865,7 +843,7 @@ CLS
 ECHO/
 ECHO ================================================================
 ECHO/
-ECHO                         New Ninja Patch
+ECHO                       New Patch with Ninja
 ECHO/
 ECHO  This process will take you through the first steps of creating
 ECHO  a new patch from the patch template. It is advised to be fami-
