@@ -30,11 +30,11 @@ func void _HT_Insert(var int ptr, var int val, var int key) {
 	var zCArray arr; arr = _^(ptr);
 	var int h; h = hash(key) % (arr.numAlloc/4);
 	var int bucket; bucket = MEM_ReadIntArray(arr.array, h);
-	if (!bucket) {
+	if (!bucket) { 
 		MEM_WriteIntArray(arr.array, h, MEM_ArrayCreate());
 		bucket = MEM_ReadIntArray(arr.array, h);
 	};
-
+	
 	/* Check whether an entry with the same key already exists */
 	var zCArray buck; buck = _^(bucket);
 	var int i;
@@ -43,7 +43,7 @@ func void _HT_Insert(var int ptr, var int val, var int key) {
 			MEM_Error("HT: A key has been assigned with two values!");
 		};
 	end;
-
+	
 	MEM_ArrayInsert(bucket, key);
 	MEM_ArrayInsert(bucket, val);
 	arr.numInArray += 1;
@@ -77,7 +77,7 @@ func void _HT_Resize(var int ptr, var int size) {
 	arr.numAlloc = size*4;
 	arr.numInArray = hArr.numInArray;
 };
-
+		
 
 func int _HT_Get(var int ptr, var int key) {
 	var zCArray arr; arr = _^(ptr);
@@ -124,7 +124,7 @@ func void _HT_Remove(var int ptr, var int key) {
 			return;
 		};
 	end;
-	MEM_Error("HT: Key not found");
+	MEM_Error("HT: Key not found"); 
 };
 
 func void _HT_Change(var int ptr, var int val, var int key) {

@@ -136,7 +136,7 @@ func void View_SetAlpha(var int hndl,var int val) {
 	ViewPtr_SetAlpha(getPtr(hndl), val);
 };
 //========================================
-// Mark: View set alpha
+// Mark: View set alpha 
 // (including all text within the view)
 //========================================
 func void ViewPtr_SetAlphaAll(var int ptr, var int val) {
@@ -145,7 +145,7 @@ func void ViewPtr_SetAlphaAll(var int ptr, var int val) {
 	if((v.alpha != 255) && (v.alphafunc == 1)) {
         v.alphafunc = 2;
     };
-	if (v.textLines_next) {
+	if (v.textLines_next) { 
 		var int list; list = v.textLines_next;
 		var zCList l;
 		while(list);
@@ -275,10 +275,11 @@ func void ViewPtr_Move(var int ptr, var int x, var int y) {
     CALL_IntParam(y);
     CALL_IntParam(x);
     CALL__thiscall(ptr, zCView__Move);
-
+	
     v.pposx = Print_ToPixel(v.vposx, PS_X);
     v.pposy = Print_ToPixel(v.vposy, PS_Y);
 };
+
 func void View_Move(var int hndl, var int x, var int y) {
     ViewPtr_Move(getPtr(hndl), x, y);
 };

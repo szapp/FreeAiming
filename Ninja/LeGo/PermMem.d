@@ -90,7 +90,7 @@ func void MEM_ArraySortFunc(var int stream, var func fnc) {
 //========================================
 const int HandlesPointer = 0;
 const int HandlesInstance = 0;
-var int nextHandle;
+var int nextHandle; 
 var int _PM_ArrayElements;
 var int _PM_Inst;
 var int _PM_Stack;
@@ -244,7 +244,7 @@ func void foreachHndl(var int inst, var func fnc) {
     };
     var zCArray z; z = _^(c);
     var int l; l = z.numInArray;
-    var int a; a = MEM_Alloc(l<<2);
+    var int a; a = MEM_Alloc(l<<2); 
     MEM_Copy(z.array, a, l);
     var int i; i = 0;
     var int o; o = MEM_GetFuncPtr(fnc);
@@ -312,7 +312,7 @@ func void free(var int h, var int inst) {
         h = MEMINT_StackPopInt();
     };
     MEM_Free(h);
-};
+}; 
 
 //========================================
 // Speicher reservieren.
@@ -334,7 +334,7 @@ func int create(var int inst) {
 //========================================
 func int new(var int inst) {
     locals(); var int ptr;
-
+	
 	nextHandle += 1;
     if (!HandlesPointer) {
 		MEM_InfoBox("This should never happen! If it does anyway, please report to Lehona on WorldOfGothic.");
@@ -352,14 +352,14 @@ func int new(var int inst) {
 /* provisorisch */
 func int wrap(var int inst, var int ptr) {
     locals();
-
+	
 	nextHandle += 1;
     if (!HandlesPointer) {
         //Falls das Array nicht existiert neu anlegen.
         HandlesPointer = _HT_Create();
         HandlesInstance = _HT_Create();
     };
-
+	
 	_HT_Insert(HandlesPointer, ptr, nextHandle);
 	_HT_Insert(HandlesInstance, inst, nextHandle);
     _PM_AddToForeachTable(nextHandle);
@@ -1090,7 +1090,7 @@ func void _PM_Archive_HTSub(var int key, var int val) {
 func void _PM_Archive_ListSub(var int lPtr) {
 	var zCList list; list = _^(lPtr);
 	var int key; key = list.data;
-
+	
 	PM_CurrHandle = key;
     _PM_InstToSaveStruct(_HT_Get(HandlesPointer, key), _HT_Get(HandlesInstance, key));
 
@@ -1100,7 +1100,6 @@ func void _PM_Archive_ListSub(var int lPtr) {
     _PM_WriteSaveStruct();
 };
 
-
 func void _PM_Archive() {
     MEM_Info("===  PermMem::Archive  ===");
 
@@ -1109,7 +1108,7 @@ func void _PM_Archive() {
     _PM_FreedSize = 0;    _PM_FreedNum    = 0;
 
     _PM_Mode = 1;
-
+	
     var int arrMax; arrMax = _HT_GetNumber(HandlesPointer);
 
     var int newArr; newArr = MEM_ArrayCreate();

@@ -104,12 +104,12 @@ func void ContinueCall() {
     MEM_CallByPtr(to);
 };
 
-func void passArgumentI(var int i) {
+func void PassArgumentI(var int i) {
     MEM_PushIntParam(i);
 };
-func void passArgumentS(var string s) {
+func void PassArgumentS(var string s) {
     MEM_PushStringParam(s);
 };
-func void passArgumentN(var int n) {
+func void PassArgumentN(var int n) {
     MEM_PushInstParam(n);
 };

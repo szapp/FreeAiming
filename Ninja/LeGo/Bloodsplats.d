@@ -42,29 +42,29 @@ func void Bloodsplat(var int currDam) {
 
     ptr = View_Create(x, y, x+texSizeX, y+texSizeY);
 
-    var int s; s = SB_New();
-
-    SB ("BLOODSPLAT");
-    SBi(r_Max(BLOODSPLAT_TEX));
-    SB (".TGA");
+	var int s; s = SB_New();
+	
+	SB ("BLOODSPLAT");
+	SBi(r_Max(BLOODSPLAT_TEX));
+	SB (".TGA");
 
     View_SetTexture(ptr, SB_ToString());
-
-    SB_Destroy();
-
+	
+	SB_Destroy();
+	
     View_Open(ptr);
-
-    var int a8; a8 = Anim8_NewExt(255, _Bloodsplat_Handler, ptr, false);
-    Anim8_RemoveIfEmpty(a8, true);
-    Anim8_RemoveDataIfEmpty(a8, true);
-
-    Anim8 (a8, 255,  300, A8_Wait);
-    Anim8q(a8,   0, 2000, A8_SlowStart);
+	
+	var int a8; a8 = Anim8_NewExt(255, _Bloodsplat_Handler, ptr, false);
+	Anim8_RemoveIfEmpty(a8, true);
+	Anim8_RemoveDataIfEmpty(a8, true);
+	
+	Anim8 (a8, 255,  300, A8_Wait);
+	Anim8q(a8,   0, 2000, A8_SlowStart);
 };
 
 func void _Bloodsplat_Handler(var int h, var int val) {
-    var zCView v; v = get(h);
-    v.alpha = val;
+	var zCView v; v = get(h);
+	v.alpha = val;
 };
 
 //========================================
@@ -111,8 +111,8 @@ func void _B_HeroDamage() {
             MEM_CallByString("WLD_STOPEFFECT");
 
             // The effect flickers under Gothic 1
-            Wld_PlayEffect("HERO_HURT", hero, hero, 0, 0, 0, 0);
-        };
+			Wld_PlayEffect("HERO_HURT", hero, hero, 0, 0, 0, 0);
+		};
     };
 
     if (_B_HeroDamagePercFunc > -1) {

@@ -29,7 +29,7 @@ var int Cursor_fY;
 var int Cursor_Hndl;
 func void Cursor_Hide() {
     if(!Hlp_IsValidHandle(Cursor_Hndl)) { return; };
-
+	
     View_Close(Cursor_Hndl);
 };
 
@@ -123,7 +123,7 @@ func void _Cursor_GetVal() {
     Cursor_KeyState(_@(Cursor_Left),  c.keyLeft);
     Cursor_KeyState(_@(Cursor_Right), c.keyRight);
     Cursor_KeyState(_@(Cursor_Mid),   c.keyMid);
-
+	
 	if(Cursor_Left == KEY_PRESSED) {
 		Event_Execute(Cursor_Event, CUR_LeftClick);
 	};

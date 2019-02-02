@@ -12,6 +12,8 @@
 |*                  Erweitertes Scriptpaket, aufbauend                   *|
 |*                              auf Ikarus                               *|
 |*                                                                       *|
+|*                         NINJA SPECIFIC VERSION                        *|
+|*                                                                       *|
 \*************************************************************************/
 const string LeGo_Version = "LeGo 2.5.1-N001"; // Ninja: DO NOT CHANGE!
 

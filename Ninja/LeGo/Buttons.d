@@ -6,24 +6,103 @@ var int _Button_Mo_Hi;
 
 class _Button {
 	var int userdata;
-
+	
 	var int posx;
 	var int posy;
 	var int posx2;
 	var int posy2;
-
+	
 	var int on_enter;
 	var int on_leave;
 	var int on_click;
 
 	// intern
 	var int view; 	// zCView@
-	var int state;
+	var int state; 	
 
 };
-const string _BUTTON_STRUCT = "auto|10";
+// const string _BUTTON_STRUCT = "auto|10";
+
+func void _Button_Archiver(var _Button this) {
+	// Ninja: Consider mods that use older LeGo versions - they expect the old archiving!
+	if (MEM_GetSymbolIndex("LEGO_INIT") < MEM_GetSymbolIndex("_BUTTON_ARCHIVER") {
+		PM_SaveInt("userdata", this.userdata);
+		PM_SaveInt("posx",     this.posx);
+		PM_SaveInt("posy",     this.posy);
+		PM_SaveInt("posx2",    this.posx2);
+		PM_SaveInt("posy2",    this.posy2);
+		PM_SaveInt("on_enter", this.on_enter);
+		PM_SaveInt("on_leave", this.on_leave);
+		PM_SaveInt("on_click", this.on_click);
+		PM_SaveInt("view",     this.view);
+		PM_SaveInt("state",    this.state);
+		return;
+	};
+
+	if (this.userdata)     { PM_SaveInt("userdata",    this.userdata); };
+
+	PM_SaveInt("posx",  this.posx);
+	PM_SaveInt("posy",  this.posy);
+	PM_SaveInt("posx2", this.posx2);
+	PM_SaveInt("posy2", this.posy2);
+
+	if (this.on_enter > 0) { PM_SaveFuncID("on_enter", this.on_enter); };
+	if (this.on_leave > 0) { PM_SaveFuncID("on_leave", this.on_leave); };
+	if (this.on_click > 0) { PM_SaveFuncID("on_click", this.on_click); };
+
+	PM_SaveInt("view",  this.view); // Could also save it as classPtr to spare some handles?
+	PM_SaveInt("state", this.state);
+};
+
+func void _Button_UnArchiver(var _Button this) {
+	var int obj;
+	if (PM_Exists("userdata")) { this.userdata = PM_Load("userdata"); };
+
+	this.posx  = PM_Load("posx");
+	this.posy  = PM_Load("posy");
+	this.posx2 = PM_Load("posx2");
+	this.posy2 = PM_Load("posy2");
+
+	if (PM_Exists("on_enter")) {
+		obj = _PM_SearchObj("on_enter");
+		if (_PM_ObjectType(obj) == _PM_String) { // Compatibility
+			this.on_enter = PM_LoadFuncID("on_enter");
+		} else {
+			this.on_enter = PM_Load("on_enter");
+		};
+	} else {
+		this.on_enter = MEM_GetFuncID(Button_Null);
+	};
+	if (PM_Exists("on_leave")) {
+		obj = _PM_SearchObj("on_leave");
+		if (_PM_ObjectType(obj) == _PM_String) {
+			this.on_leave = PM_LoadFuncID("on_leave");
+		} else {
+			this.on_leave = PM_Load("on_leave");
+		};
+	} else {
+		this.on_leave = MEM_GetFuncID(Button_Null);
+	};
+	if (PM_Exists("on_click")) {
+		obj = _PM_SearchObj("on_click");
+		if (_PM_ObjectType(obj) == _PM_String) {
+			this.on_click = PM_LoadFuncID("on_click");
+		} else {
+			this.on_click = PM_Load("on_click");
+		};
+	} else {
+		this.on_click = MEM_GetFuncID(Button_Null);
+	};
+
+	this.view  = PM_Load("view");
+	this.state = PM_Load("state");
+};
+
 func void _Button_Delete(var _Button btn) {
-	View_Delete(btn.view);
+	// View might have been deleted already!
+	if (Hlp_IsValidHandle(btn.view)) {
+		View_Delete(btn.view);
+	};
 };
 
 func void Button_Null(var int hndl) {};
@@ -38,28 +117,28 @@ func int Button_Create(var int posx, var int posy, var int width, var int height
 	if (_Buttons_NextSlot == MAX_BUTTONS) {
 		return 0;
 	};
-
+	
 	var int button; button = new(_Button@);
 	var _Button btn; btn = get(button);
-
+	
 	btn.posx = posx;
 	btn.posy = posy;
 	btn.posx2 = posx+width;
 	btn.posy2 = posy+height;
-
+	
 	btn.on_enter = MEM_GetFuncID(on_enter);
 	btn.on_leave = MEM_GetFuncID(on_leave);
 	btn.on_click = MEM_GetFuncID(on_click);
-
+	
 
 
 	// intern
 	btn.view = View_Create(posx, posy, posx+width, posy+height); // posy+height or posy-height???
 	btn.state = 0; //off
-
+	
 	View_SetTexture(btn.view, tex);
-
-
+			
+				
 	MEM_WriteStatArr(_Buttons, _Buttons_NextSlot, button);
 	_Buttons_NextSlot += 1;
 	return button+0;
@@ -69,7 +148,7 @@ func int Button_CreatePxl(var int posx, var int posy, var int width, var int hei
 	return Button_Create(Print_ToVirtual(posx, PS_X), Print_ToVirtual(posy, PS_y), Print_ToVirtual(width, PS_X), Print_ToVirtual(height, PS_Y), tex, on_enter, on_leave, on_click);
 };
 
-func void Button_Delete(var int hndl) {
+func void Button_Delete(var int hndl) { 
 	if (!Hlp_IsValidHandle(hndl)) {
 		return;
 	};
@@ -88,16 +167,16 @@ func void Button_Delete(var int hndl) {
 	i += 1;
 	MEM_StackPos.position = pos;
 };
-
+	
 
 func void Button_Show(var int hndl) {
 	var _Button btn; btn = get(hndl);
 	if (btn.state & BUTTON_ACTIVE) { // It's already activated
 		return;
 	};
-
+	
 	View_Open(btn.view);
-
+	
 	btn.state = BUTTON_ACTIVE;
 };
 
@@ -106,15 +185,15 @@ func void Button_Hide(var int hndl) {
 	if (!(btn.state&BUTTON_ACTIVE)) { // It's already deactivated
 		return;
 	};
-
+	
 	View_Close(btn.view);
-
+	
 	btn.state = 0;
 };
 
 func void Button_SetTexture(var int hndl, var string tex) {
 	var _Button btn; btn = get(hndl);
-
+	
 	View_SetTexture(btn.view, tex);
 };
 
@@ -138,22 +217,22 @@ func void Button_DeleteMouseover() {
 	if (!Hlp_IsValidHandle(_BUTTON_MO)) {
 		return;
 	};
-
+	
 	View_Close(_BUTTON_MO);
 };
 func void Button_CreateMouseover(var string text, var string font) {
-	var int len; var int max; max = 0; var int i; i = 0; var int pos; pos = MEM_StackPos.position;
-
+	var int len; var int max; max = 0; var int i; i = 0; var int pos; pos = MEM_StackPos.position; 
+	
 	len = Print_GetStringWidth(STR_Split(text, Print_LineSeperator, i), font);
 		if (len > max) { max = len; };
 		i += 1;
-
+		
 		if (i < STR_SplitCount(text, Print_LineSeperator)) {
 	MEM_StackPos.position = pos;
 	};
-	len = max;
+	len = max; 
 	_Button_MO_Len = len;
-
+	
 	var int hi; hi = Print_GetFontHeight(font);
 	if (!_BUTTON_MO) {
 		_BUTTON_MO = View_CreatePxl(CURSOR_X-2, CURSOR_Y-2, CURSOR_X+len+14, CURSOR_Y+(hi*STR_SplitCount(text, Print_LineSeperator)+2));
@@ -161,23 +240,23 @@ func void Button_CreateMouseover(var string text, var string font) {
 		View_ResizePxl(_BUTTON_MO, len+14, hi*STR_SplitCount(text, Print_LineSeperator)+2);
 	};
 	_Button_MO_Hi = hi*STR_SplitCount(text, Print_LineSeperator)+2;
-
+	
 	View_SetTexture(_BUTTON_MO, "MO_BG.TGA");
 	View_Open(_BUTTON_MO);
 
-
-
-	var int txt; txt = Print_TextField(100, 100, text, font, Print_ToVirtual(hi, (hi*STR_SplitCount(text, Print_LineSeperator)+2))); //Print_CreateTextView(0, 0, text, font);
+	
+	
+	var int txt; txt = Print_TextField(100, 100, text, font, Print_ToVirtual(hi, (hi*STR_SplitCount(text, Print_LineSeperator)+2))); //Print_CreateTextView(0, 0, text, font); 
 	var zCView view; view = View_Get(_BUTTON_MO);
-
+	
 	view.fxopen = 0;
 	view.fxclose = 0;
-
+	
 	if (view.textLines_next) {
 		View_DeleteText(_BUTTON_MO);
 	};
-	view.textLines_next = txt;
-};
+	view.textLines_next = txt; 
+};	
 
 func void Button_Activate(var int hndl) {
 	var _Button btn; btn = get(hndl);
@@ -205,15 +284,16 @@ func int Button_GetState(var int hndl) {
 	var _Button btn; btn = get(hndl);
 	return btn.state+0; // Verschachteln
 };
+
 func void Button_Move(var int hndl, var int nposx, var int nposy) {
 	var _Button btn; btn = get(hndl);
 	var int width; width = btn.posx2 - btn.posx;
 	var int height; height = btn.posy2 - btn.posy;
 	View_MovePxl(btn.view, nposx, nposy);
-
+	
 	btn.posx += Print_ToVirtual(nposx, PS_X);
 	btn.posx2 = btn.posx + width;
-
+	
 	btn.posy += Print_ToVirtual(nposy, PS_Y);
 	btn.posy2 = btn.posy + height;
 };
@@ -228,10 +308,10 @@ func void Button_MoveTo(var int hndl, var int nposx, var int nposy) {
 	var int width; width = btn.posx2 - btn.posx;
 	var int height; height = btn.posy2 - btn.posy;
 	View_MoveToPxl(btn.view, nposx, nposy);
-
+	
 	btn.posx = Print_ToVirtual(nposx, PS_X);
 	btn.posx2 = btn.posx + width;
-
+	
 	btn.posy = Print_ToVirtual(nposy, PS_Y);
 	btn.posy2 = btn.posy + height;
 };
@@ -261,10 +341,10 @@ func int Button_GetCaptionPtr(var int hndl) {
 	return v.textLines_next;
 };
 
-
+	
 func void Buttons_Do() {
 	var _Button btn;
-
+	
 	var int y; y = CURSOR_Y+27;
 	var int x; x = CURSOR_X+15;
 	if (_BUTTON_MO) {
@@ -281,7 +361,7 @@ func void Buttons_Do() {
 		if (i >= _Buttons_NextSlot) {
 			return;
 		};
-
+		
 		btn = get(MEM_ReadStatArr(_Buttons, i));
 		var int CY; CY = Print_ToVirtual(CURSOR_Y, PS_Y);
 		var int CX; CX = Print_ToVirtual(CURSOR_X, PS_X);
@@ -300,9 +380,9 @@ func void Buttons_Do() {
 				MEM_PushIntParam(MEM_ReadStatArr(_Buttons, i));
 				MEM_CallByID(btn.on_leave);
 				btn.state = btn.state & ~BUTTON_ENTERED;
-			};
+			}; 
 		};
-
+				
 		i += 1;
 		MEM_StackPos.position = pos;
 };
