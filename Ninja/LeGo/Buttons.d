@@ -25,7 +25,7 @@ class _Button {
 
 func void _Button_Archiver(var _Button this) {
 	// Ninja: Consider mods that use older LeGo versions - they expect the old archiving!
-	if (MEM_GetSymbolIndex("LEGO_INIT") < MEM_GetSymbolIndex("_BUTTON_ARCHIVER") {
+	if (MEM_GetSymbolIndex("LEGO_INIT") < MEM_GetSymbolIndex("_BUTTON_ARCHIVER")) {
 		PM_SaveInt("userdata", this.userdata);
 		PM_SaveInt("posx",     this.posx);
 		PM_SaveInt("posy",     this.posy);

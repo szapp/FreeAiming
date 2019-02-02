@@ -22,7 +22,7 @@ class lCBuff {
 
 func void lCBuff_Archiver(var lCBuff this) {
 	// Ninja: Consider mods that use older LeGo versions - they expect the old archiving!
-	if (MEM_GetSymbolIndex("LEGO_INIT") < MEM_GetSymbolIndex("LCBUFF_ARCHIVER") {
+	if (MEM_GetSymbolIndex("LEGO_INIT") < MEM_GetSymbolIndex("LCBUFF_ARCHIVER")) {
 		PM_SaveString("name",    this.name);
 		PM_SaveInt("bufftype",   this.bufftype);
 		PM_SaveInt("targetID",   this.targetID);
