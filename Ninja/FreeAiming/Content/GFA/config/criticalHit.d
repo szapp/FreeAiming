@@ -150,7 +150,7 @@ func void GFA_GetCriticalHit(var C_Npc target, var string bone, var C_Item weapo
         if (!GFA_HITMARKER) {
             // Create it (if it does not exist) in the center of the screen
             Print_GetScreenSize(); // Necessary for Print_Screen
-            GFA_HITMARKER = ViewPtr_CreateCenterPxl(Print_Screen[PS_X]/2, Print_Screen[PS_Y]/2, // Coordinates
+            GFA_HITMARKER = ViewPtr_CreateCenterPxl(Print_Screen[PS_X]/2, Print_Screen[PS_Y]/2,  // Coordinates
                                                     GFA_RETICLE_MAX_SIZE, GFA_RETICLE_MAX_SIZE); // Size
 
             // Get 7th frame of animated texture as static texture
