@@ -1,9 +1,6 @@
 Free Aiming Patch
 =================
 
-Forked from https://github.com/szapp/NinjaPatchTemplate
-
-
 Free aiming patch for Gothic and Gothic 2 NotR
 
 
@@ -28,7 +25,7 @@ REALISTIC               More difficult with additional modulators on accuracy:
                         - Moving while shooting reduces the accuracy by 20%
 
 
-Patch includes Ikarus, LeGo and Gothic Free Aim.
+Patch includes Gothic Free Aim.
 
 Gothic Free Aim, Copyright (C) 2016-2018  mud-freak (@szapp).
 <http://github.com/szapp/GothicFreeAim>

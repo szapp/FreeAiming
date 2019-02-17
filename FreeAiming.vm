@@ -11,8 +11,6 @@ _work\Data\Anims\_compiled\Humans*_Aim_Move*.man
 _work\Data\Textures\_compiled\Reticle*-C.tex
 
 ; Script files
-Ninja\Ikarus\* -r
-Ninja\LeGo\* -r
 Ninja\FreeAiming\* -r
 
 [EXCLUDE]

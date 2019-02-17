@@ -4,7 +4,7 @@
  * It ensures that all necessary LeGo packages will be loaded without breaking already loaded LeGo packages.
  *
  * Caution: When re-using this function elsewhere, it is important to rename it to prevent clashes!
- * Each Ninja patch that needs it, has to have their own function with a unique name. Otherwise they cannot be stacked.
+ * Each patch that needs it, has to have their own function with a unique name. Otherwise they cannot be stacked.
  *
  * Do not modify this function in any way!
  */
