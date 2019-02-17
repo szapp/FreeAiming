@@ -1,24 +1,4 @@
 /*
- * Call this function (from the function "Ninja_FreeAiming_Init" below) to initialize LeGo packages.
- *
- * It ensures that all necessary LeGo packages will be loaded without breaking already loaded LeGo packages.
- *
- * Caution: When re-using this function elsewhere, it is important to rename it to prevent clashes!
- * Each patch that needs it, has to have their own function with a unique name. Otherwise they cannot be stacked.
- *
- * Do not modify this function in any way!
- */
-func void Ninja_FreeAiming_MergeLeGoFlags(var int flags) {
-    const int legoInit    = -1; // Prior initialization state
-    const int initialized =  0; // Once per session
-    var   int loaded;           // Once per game save
-    legoInit    = LeGo_MergeFlags(flags, legoInit, initialized, loaded);
-    initialized = 1;
-    loaded      = 1;
-};
-
-
-/*
  * Menu initialization function called by Ninja every time a menu is opened
  */
 func void Ninja_FreeAiming_Menu(var int menuPtr) {
@@ -92,7 +72,7 @@ func void Ninja_FreeAiming_Menu(var int menuPtr) {
  */
 func void Ninja_FreeAiming_Init() {
     // Wrapper for "LeGo_Init" to ensure correct LeGo initialization without breaking the mod
-    Ninja_FreeAiming_MergeLeGoFlags(GFA_LEGO_FLAGS);
+    LeGo_MergeFlags(GFA_LEGO_FLAGS);
 
     // Initialize GFA
     GFA_Init(GFA_ALL & ~GFA_REUSE_PROJECTILES);
