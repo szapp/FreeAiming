@@ -1,33 +1,7 @@
 :: Initialize new patch with Ninja
 @ECHO OFF
 SET PAGE=0
-SET PAGES_MAX=5
-
-CALL :SHOWHEADER
-
-ECHO Before we start...
-ECHO/
-ECHO Disclaimer
-ECHO ==========
-ECHO/
-ECHO Please be aware that creating a patch that uses Ninja is not a
-ECHO one time effort. You sign up for continuous development on your
-ECHO part!
-ECHO Every time a new version of Ikarus or LeGo is released each
-ECHO patch needs to be updated to stay compatible with mods as well
-ECHO as with other patches. If you release a patch upon the world
-ECHO you need to be ready to create new versions of it every once in
-ECHO a while (given your patch uses Ikarus and/or LeGo).
-ECHO/
-ECHO The easiest way to do so is to star/watch the patch template on
-ECHO GitHub ^<https://github.com/szapp/NinjaPatchTemplate^>, as it
-ECHO will always be kept up to date. The best way is to fork the re-
-ECHO pository and simply merge any changes once they arise.
-ECHO/
-ECHO I agree and I understand the implications (press any key) . . .
-PAUSE > NUL
-
-::=============================================== PAGE BREAK =========================================================::
+SET PAGES_MAX=4
 
 CALL :SHOWHEADER
 ECHO Patch Properties
@@ -218,7 +192,7 @@ IF "%IKARUS%" == "y" (
         ECHO you use Ikarus.
     )
 ) ELSE (
-ECHO This is useful to add your own initializations.
+    ECHO This is useful to add your own initializations.
 )
 :PROMPT_INIT_CONTENT
 SET INIT_CONTENT=
@@ -499,7 +473,7 @@ ECHO ===============
 ECHO/
 ECHO All necessary information has been gathered. No actions have
 ECHO been performed yet. You may press CTRL+C to abort the process.
-ECHO Press any key to create all files to initialize your new Ninja
+ECHO Press any key to create all files to initialize your new
 ECHO patch '%NAME%' . . .
 PAUSE > NUL
 ECHO/
@@ -577,12 +551,6 @@ ECHO Write VDFS VM script
 (ECHO ; _work\* -r)>>                                                         "%~dp0%NAME%.vm" || GOTO ERR
 (ECHO/)>>                                                                     "%~dp0%NAME%.vm" || GOTO ERR
 (ECHO ; Script files)>>                                                       "%~dp0%NAME%.vm" || GOTO ERR
-IF "%IKARUS%" == "y" (
-    (ECHO Ninja\Ikarus\* -r)>>                                                "%~dp0%NAME%.vm" || GOTO ERR
-    IF "%LEGO%" == "y" (
-        (ECHO Ninja\LeGo\* -r)>>                                              "%~dp0%NAME%.vm" || GOTO ERR
-    )
-)
 (ECHO Ninja\%NAME%\* -r)>>                                                    "%~dp0%NAME%.vm" || GOTO ERR
 (ECHO/)>>                                                                     "%~dp0%NAME%.vm" || GOTO ERR
 (ECHO [EXCLUDE])>>                                                            "%~dp0%NAME%.vm" || GOTO ERR
@@ -594,27 +562,6 @@ IF "%IKARUS%" == "y" (
 (ECHO [INCLUDE])>>                                                            "%~dp0%NAME%.vm" || GOTO ERR
 (ECHO/)>>                                                                     "%~dp0%NAME%.vm" || GOTO ERR
 (ECHO [ENDVDF])>>                                                             "%~dp0%NAME%.vm" || GOTO ERR
-
-ECHO Write Readme
-(ECHO %NAME%)>                                                                "%~dp0README_%NAME%.md" || GOTO ERR
-(ECHO %NAME_UNDERLINE%)>>                                                     "%~dp0README_%NAME%.md" || GOTO ERR
-(ECHO/)>>                                                                     "%~dp0README_%NAME%.md" || GOTO ERR
-(ECHO Forked from https://github.com/szapp/NinjaPatchTemplate)>>              "%~dp0README_%NAME%.md" || GOTO ERR
-(ECHO/)>>                                                                     "%~dp0README_%NAME%.md" || GOTO ERR
-(ECHO/)>>                                                                     "%~dp0README_%NAME%.md" || GOTO ERR
-(ECHO ^[ PROVIDE MORE INFORMATION HERE ^])>>                                  "%~dp0README_%NAME%.md" || GOTO ERR
-(ECHO/)>>                                                                     "%~dp0README_%NAME%.md" || GOTO ERR
-(ECHO/)>>                                                                     "%~dp0README_%NAME%.md" || GOTO ERR
-IF "%IKARUS%" == "y" (
-    IF "%LEGO%" == "y" (
-        (ECHO Patch includes Ikarus and LeGo.)>>                              "%~dp0README_%NAME%.md" || GOTO ERR
-    ) ELSE (
-        (ECHO Patch includes Ikarus.)>>                                       "%~dp0README_%NAME%.md" || GOTO ERR
-    )
-    (ECHO/)>>                                                                 "%~dp0README_%NAME%.md" || GOTO ERR
-    (ECHO/)>>                                                                 "%~dp0README_%NAME%.md" || GOTO ERR
-)
-(ECHO Ninja ^<http://tiny.cc/GothicNinja^>)>>                                 "%~dp0README_%NAME%.md" || GOTO ERR
 
 ECHO/
 ECHO Initialization successful
@@ -634,11 +581,6 @@ ECHO/
 SET ITER=1
 ECHO Next Steps
 ECHO ==========
-ECHO/
-ECHO %ITER%. Adjust Readme
-SET /A ITER+=1
-ECHO    If your patch requires a lot of explanations you may want to
-ECHO    adjust the readme file which has been written provisionally.
 ECHO/
 ECHO %ITER%. Add Scripts
 SET /A ITER+=1
@@ -712,9 +654,9 @@ IF NOT EXIST "%~dp0Ninja\%NAME%\Content" (
 
 IF "%IKARUS%" == "y" (
     ECHO Write content SRC ^(G%1^)
-    (ECHO ..\Ikarus\Ikarus_G%1.src)>                                          "%~dp0Ninja\%NAME%\Content_G%1.src" || GOTO ERR
+    (ECHO Ikarus)>                                                            "%~dp0Ninja\%NAME%\Content_G%1.src" || GOTO ERR
     IF "%LEGO%" == "y" (
-        (ECHO ..\LeGo\Header_G%1.src)>>                                       "%~dp0Ninja\%NAME%\Content_G%1.src" || GOTO ERR
+        (ECHO LeGo)>>                                                         "%~dp0Ninja\%NAME%\Content_G%1.src" || GOTO ERR
 
         IF NOT DEFINED CONTENT_ONCE (
             ECHO Write content init file
