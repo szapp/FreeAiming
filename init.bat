@@ -657,40 +657,6 @@ IF "%IKARUS%" == "y" (
     (ECHO Ikarus)>                                                            "%~dp0Ninja\%NAME%\Content_G%1.src" || GOTO ERR
     IF "%LEGO%" == "y" (
         (ECHO LeGo)>>                                                         "%~dp0Ninja\%NAME%\Content_G%1.src" || GOTO ERR
-
-        IF NOT DEFINED CONTENT_ONCE (
-            ECHO Write content init file
-            (ECHO /*)>                                                        "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            IF "%INIT_CONTENT%" == "y" (
-                (ECHO  * Call this function ^(from the function "Ninja_%NAME%_Init" ^
-below^) to initialize LeGo packages.)>>                                       "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            ) ELSE (
-                (ECHO  * Call this function to initialize LeGo packages.)>>   "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            )
-            (ECHO  *)>>                                                       "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO  * It ensures that all necessary LeGo packages will be ^
-loaded without breaking already loaded LeGo packages.)>>                      "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO  *)>>                                                       "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO  * Caution: When re-using this function elsewhere, it is ^
-important to rename it to prevent clashes!)>>                                 "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO  * Each patch that needs it, has to have their own ^
-function with a unique name. Otherwise they cannot be stacked.)>>             "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO  *)>>                                                       "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO  * Do not modify this function in any way!)>>               "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO  */)>>                                                      "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO func void Ninja_%NAME%_MergeLeGoFlags^(var int flags^) {)>> "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO     const int legoInit    = -1; // Prior initialization ^
-state)>>                                                                      "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO     const int initialized =  0; // Once per session)>>      "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO     var   int loaded;           // Once per game save)>>    "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO     legoInit    = LeGo_MergeFlags^(flags, legoInit, ^
-initialized, loaded^);)>>                                                     "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO     initialized = 1;)>>                                     "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO     loaded      = 1;)>>                                     "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO };)>>                                                       "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO/)>>                                                         "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO/)>>                                                         "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-        )
     )
     (ECHO/)>>                                                                 "%~dp0Ninja\%NAME%\Content_G%1.src" || GOTO ERR
     (ECHO // LIST YOUR FILES HERE)>>                                          "%~dp0Ninja\%NAME%\Content_G%1.src" || GOTO ERR
@@ -716,6 +682,7 @@ IF NOT EXIST "%~dp0Ninja\%NAME%\Content\NinjaInit.d" (
 )
 IF "%INIT_MENU%" == "y" (
     IF NOT DEFINED CONTENT_ONCE (
+        ECHO Write content init file
         (ECHO /*)>>                                                           "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
         (ECHO  * Menu initialization function called by Ninja every time a ^
 menu is opened)>>                                                             "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
@@ -743,8 +710,7 @@ G2^) / "Init_<Levelname>" ^(G1^))>>                                           "%
         IF "%LEGO%" == "y" (
             (ECHO     // Wrapper for "LeGo_Init" to ensure correct LeGo ^
 initialization without breaking the mod)>>                                    "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
-            (ECHO     Ninja_%NAME%_MergeLeGoFlags^( /* DESIRED LEGO PACKAGES ^
-*/ ^);)>>                                                                     "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
+            (ECHO     LeGo_MergeFlags^( /* DESIRED LEGO PACKAGES */ ^);)>>    "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
             (ECHO/)>>                                                         "%~dp0Ninja\%NAME%\Content\NinjaInit.d" || GOTO ERR
         ) ELSE (
             IF "%IKARUS%" == "y" (
