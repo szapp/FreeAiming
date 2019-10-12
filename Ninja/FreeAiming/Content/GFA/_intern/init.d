@@ -288,13 +288,6 @@ func int GFA_InitOnce() {
     MEM_Info("     For more details see <http://opensource.org/licenses/MIT>.");
     MEM_Info("");
 
-    // Add emergency-lock, in case a mod-project is released with a critical bug related to GFA
-    if (MEM_ModOptExists("OVERRIDES", "GFA.emergencyLock")) {
-        MEM_SendToSpy(zERR_TYPE_WARN, "GFA emergency lock active");
-        MEM_Info("Remove GFA.emergencyLock override in Mod-INI to enable GFA.");
-        return FALSE;
-    };
-
     // FEATURE: Free aiming
     if (GFA_Flags & GFA_RANGED) || (GFA_Flags & GFA_SPELLS) {
         GFA_InitFeatureFreeAiming();
