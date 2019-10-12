@@ -1,8 +1,8 @@
 /*
  * Initialization of GFA
  *
- * Gothic Free Aim (GFA) v1.1.0 - Free aiming for the video games Gothic 1 and Gothic 2 by Piranha Bytes
- * Copyright (C) 2016-2018  mud-freak (@szapp)
+ * Gothic Free Aim (GFA) v1.2.0 - Free aiming for the video games Gothic 1 and Gothic 2 by Piranha Bytes
+ * Copyright (C) 2016-2019  mud-freak (@szapp)
  *
  * This file is part of Gothic Free Aim.
  * <http://github.com/szapp/GothicFreeAim>
@@ -280,13 +280,20 @@ func int GFA_InitOnce() {
 
     // Copyright notice in zSpy
     var int s; s = SB_New();
-    SB("     "); SB(GFA_VERSION); SB(", Copyright "); SBc(169 /* (C) */); SB(" 2016-2018  mud-freak (@szapp)");
+    SB("     "); SB(GFA_VERSION); SB(", Copyright "); SBc(169 /* (C) */); SB(" 2016-2019  mud-freak (@szapp)");
     MEM_Info("");
     MEM_Info(SB_ToString()); SB_Destroy();
     MEM_Info("     <http://github.com/szapp/GothicFreeAim>");
     MEM_Info("     Released under the MIT License.");
     MEM_Info("     For more details see <http://opensource.org/licenses/MIT>.");
     MEM_Info("");
+
+    // Add emergency-lock, in case a mod-project is released with a critical bug related to GFA
+    if (MEM_ModOptExists("OVERRIDES", "GFA.emergencyLock")) {
+        MEM_SendToSpy(zERR_TYPE_WARN, "GFA emergency lock active");
+        MEM_Info("Remove GFA.emergencyLock override in Mod-INI to enable GFA.");
+        return FALSE;
+    };
 
     // FEATURE: Free aiming
     if (GFA_Flags & GFA_RANGED) || (GFA_Flags & GFA_SPELLS) {
