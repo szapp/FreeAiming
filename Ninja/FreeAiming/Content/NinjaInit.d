@@ -10,7 +10,8 @@ func void Ninja_FreeAiming_Menu(var int menuPtr) {
 
 
     // Modify each menu by its name
-    if (Hlp_StrCmp(menu.name, "MENU_OPT_GAME")) {
+    if (Hlp_StrCmp(menu.name, "MENU_OPT_GAME"))
+    || (Hlp_StrCmp(menu.name, "MENU_OPT_GAMEPLAY_GAME")) {
 
         // Guess language
         var string itm1Str; var string itm2Str;
@@ -36,11 +37,42 @@ func void Ninja_FreeAiming_Menu(var int menuPtr) {
 
         // If the new ones do not exist yet, create them the first time
         if (!itm1) {
+            var zCMenuItem itmNew;
+            var zCMenuItem itm;
             itm1 = Ninja_FreeAiming_CreateMenuItem(itm1Str);
             itm2 = Ninja_FreeAiming_CreateMenuItem(itm2Str);
 
+            // Align appearance of left menu item to the existing entry
+            repeat(index, MEM_ArraySize(items)); var int index;
+                // Find an existing left column entry
+                itm = _^(MEM_ArrayRead(items, index));
+                if (itm.m_parType == /*MENU_ITEM_TEXT*/ 1)
+                && (itm.m_parItemFlags & /*IT_EFFECTS_NEXT*/ 128) {
+                    break;
+                };
+            end;
+            itmNew = _^(itm1);
+            itmNew.m_parPosX    = itm.m_parPosX;
+            itmNew.m_pFont      = itm.m_pFont;
+            itmNew.m_pFontSel   = itm.m_pFontSel;
+            itmNew.m_parBackPic = itm.m_parBackPic;
+
+            // Align appearance of right menu item to the existing entry
+            repeat(index, MEM_ArraySize(items));
+                // Find an existing right column entry
+                itm = _^(MEM_ArrayRead(items, index));
+                if (itm.m_parType != /*MENU_ITEM_TEXT*/ 1)
+                && (!(itm.m_parItemFlags & /*IT_SELECTABLE*/ 4)) {
+                    break;
+                };
+            end;
+            itmNew = _^(itm2);
+            itmNew.m_parPosX    = itm.m_parPosX;
+            itmNew.m_pFont      = itm.m_pFont;
+            itmNew.m_pFontSel   = itm.m_pFontSel;
+            itmNew.m_parBackPic = itm.m_parBackPic;
+
             // Also adjust vertical positions of the menu items
-            var zCMenuItem itm;
             itm = _^(itmL);
             var int y; y = itm.m_parPosY;
             itm.m_parPosY = y+300; // Move bottom item down

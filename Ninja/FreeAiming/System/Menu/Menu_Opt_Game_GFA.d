@@ -30,112 +30,101 @@
  * Adjust the item id (MENU_ID_GFA) below to the next available item number and change the labels if needed
  */
 
-
+/*
 const int    MENU_ID_GFA  = 7;                              // Next available Y-spot in the game menu
 const string MENU_GFA_LABEL   = "Freies Zielen";            // "Free aiming"
 const string MENU_GFA_CHOICES = "aus|an";                   // "off|on"
 const string MENU_GFA_DESCR   = "Erfordert Maus Steuerung"; // "Requires mouse controls"
+*/
 
 
 // English
 INSTANCE MENUITEM_OPT_EN_GFA(C_MENU_ITEM_DEF) {
-    backpic         = MENU_ITEM_BACK_PIC;
     text[0]         = "Free aiming";
     text[1]         = "Requires mouse controls";
-    posx            = 1000;                  posy = MENU_START_Y + MENU_SOUND_DY*MENU_ID_GFA;
-    dimx            = 3000;                  dimy = 750;
-    onSelAction[0]  = SEL_ACTION_UNDEF;
-    flags           = flags | IT_EFFECTS_NEXT;
+    dimx            = 3000;
+    dimy            = 750;
+    onSelAction[0]  = /*SEL_ACTION_UNDEF*/0;
+    flags           = flags | /*IT_EFFECTS_NEXT*/128;
 };
 
 
 INSTANCE MENUITEM_OPT_EN_GFA_CHOICE(C_MENU_ITEM_DEF) {
-    backPic               = MENU_CHOICE_BACK_PIC;
-    type                  = MENU_ITEM_CHOICEBOX;
+    type                  = /*MENU_ITEM_CHOICEBOX*/5;
     text[0]               = "off|balanced|realistic";
-    fontName              = MENU_FONT_SMALL;
-    posx                  = 5000;            posy = MENU_START_Y + MENU_SOUND_DY*MENU_ID_GFA + MENU_CHOICE_YPLUS;
-    dimx                  = MENU_SLIDER_DX;  dimy = MENU_CHOICE_DY;
+    dimx                  = 2000;
+    dimy                  = 350;
     onChgSetOption        = "freeAimingEnabled";
     onChgSetOptionSection = "GFA";
-    flags                 = flags & ~IT_SELECTABLE;
-    flags                 = flags  | IT_TXT_CENTER;
+    flags                 = flags & ~/*IT_SELECTABLE*/4;
+    flags                 = flags  | /*IT_TXT_CENTER*/16;
 };
 
 
 // German
 INSTANCE MENUITEM_OPT_DE_GFA(C_MENU_ITEM_DEF) {
-    backpic         = MENU_ITEM_BACK_PIC;
     text[0]         = "Freies Zielen";
     text[1]         = "Erfordert Maus Steuerung";
-    posx            = 1000;                  posy = MENU_START_Y + MENU_SOUND_DY*MENU_ID_GFA;
-    dimx            = 3000;                  dimy = 750;
-    onSelAction[0]  = SEL_ACTION_UNDEF;
-    flags           = flags | IT_EFFECTS_NEXT;
+    dimx            = 3000;
+    dimy            = 750;
+    onSelAction[0]  = /*SEL_ACTION_UNDEF*/0;
+    flags           = flags | /*IT_EFFECTS_NEXT*/128;
 };
 
 
 INSTANCE MENUITEM_OPT_DE_GFA_CHOICE(C_MENU_ITEM_DEF) {
-    backPic               = MENU_CHOICE_BACK_PIC;
-    type                  = MENU_ITEM_CHOICEBOX;
+    type                  = /*MENU_ITEM_CHOICEBOX*/5;
     text[0]               = "aus|balanciert|realistisch";
-    fontName              = MENU_FONT_SMALL;
-    posx                  = 5000;            posy = MENU_START_Y + MENU_SOUND_DY*MENU_ID_GFA + MENU_CHOICE_YPLUS;
-    dimx                  = MENU_SLIDER_DX;  dimy = MENU_CHOICE_DY;
+    dimx                  = 2000;
+    dimy                  = 350;
     onChgSetOption        = "freeAimingEnabled";
     onChgSetOptionSection = "GFA";
-    flags                 = flags & ~IT_SELECTABLE;
-    flags                 = flags  | IT_TXT_CENTER;
+    flags                 = flags & ~/*IT_SELECTABLE*/4;
+    flags                 = flags  | /*IT_TXT_CENTER*/16;
 };
 
 
 // Polish
 INSTANCE MENUITEM_OPT_PL_GFA(C_MENU_ITEM_DEF) {
-    backpic         = MENU_ITEM_BACK_PIC;
     text[0]         = "Wolne Celowanie";
     text[1]         = "Wymaga sterowanie myszy.";
-    posx            = 1000;                  posy = MENU_START_Y + MENU_SOUND_DY*MENU_ID_GFA;
-    dimx            = 4000;                  dimy = 750;
-    onSelAction[0]  = SEL_ACTION_UNDEF;
-    flags           = flags | IT_EFFECTS_NEXT;
+    dimx            = 4000;
+    dimy            = 750;
+    onSelAction[0]  = /*SEL_ACTION_UNDEF*/0;
+    flags           = flags | /*IT_EFFECTS_NEXT*/128;
 };
 
 
 INSTANCE MENUITEM_OPT_PL_GFA_CHOICE(C_MENU_ITEM_DEF) {
-    backPic               = MENU_CHOICE_BACK_PIC;
-    type                  = MENU_ITEM_CHOICEBOX;
+    type                  = /*MENU_ITEM_CHOICEBOX*/5;
     text[0]               = "wyі.|zrуwnow.|realistyc.";
-    fontName              = MENU_FONT_SMALL;
-    posx                  = 5000;            posy = MENU_START_Y + MENU_SOUND_DY*MENU_ID_GFA + MENU_CHOICE_YPLUS;
-    dimx                  = MENU_SLIDER_DX;  dimy = MENU_CHOICE_DY;
+    dimx                  = 2000;
+    dimy                  = 350;
     onChgSetOption        = "freeAimingEnabled";
     onChgSetOptionSection = "GFA";
-    flags                 = flags & ~IT_SELECTABLE;
-    flags                 = flags  | IT_TXT_CENTER;
+    flags                 = flags & ~/*IT_SELECTABLE*/4;
+    flags                 = flags  | /*IT_TXT_CENTER*/16;
 };
 
 
 // Russian
 INSTANCE MENUITEM_OPT_RU_GFA(C_MENU_ITEM_DEF) {
-    backpic         = MENU_ITEM_BACK_PIC;
     text[0]         = "Свободное прицеливание";
     text[1]         = "Требуется управление мышью.";
-    posx            = 350;                   posy = MENU_START_Y + MENU_SOUND_DY*MENU_ID_GFA;
-    dimx            = 5550;                  dimy = 750;
-    onSelAction[0]  = SEL_ACTION_UNDEF;
-    flags           = flags | IT_EFFECTS_NEXT;
+    dimx            = 5550;
+    dimy            = 750;
+    onSelAction[0]  = /*SEL_ACTION_UNDEF*/0;
+    flags           = flags | /*IT_EFFECTS_NEXT*/128;
 };
 
 
 INSTANCE MENUITEM_OPT_RU_GFA_CHOICE(C_MENU_ITEM_DEF) {
-    backPic               = MENU_CHOICE_BACK_PIC;
-    type                  = MENU_ITEM_CHOICEBOX;
+    type                  = /*MENU_ITEM_CHOICEBOX*/5;
     text[0]               = "откл|сбалан.|реалистич.";
-    fontName              = MENU_FONT_SMALL;
-    posx                  = 5900;            posy = MENU_START_Y + MENU_SOUND_DY*MENU_ID_GFA + MENU_CHOICE_YPLUS;
-    dimx                  = MENU_SLIDER_DX;  dimy = MENU_CHOICE_DY;
+    dimx                  = 2000;
+    dimy                  = 350;
     onChgSetOption        = "freeAimingEnabled";
     onChgSetOptionSection = "GFA";
-    flags                 = flags & ~IT_SELECTABLE;
-    flags                 = flags  | IT_TXT_CENTER;
+    flags                 = flags & ~/*IT_SELECTABLE*/4;
+    flags                 = flags  | /*IT_TXT_CENTER*/16;
 };
