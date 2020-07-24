@@ -45,7 +45,7 @@ func int Ninja_FreeAiming_GuessLocalization() {
  */
 func int Ninja_FreeAiming_SPLCOLLIDE(var int spellType) {
     // Do not damage beyond maximum fighting range (AI does not react)
-    if (Npc_GetDistToNpc(self, other) > FIGHT_DIST_CANCEL) {
+    if (Npc_GetDistToNpc(self, other) > Ninja_FreeAiming_FIGHT_DIST_CANCEL) {
         return /*COLL_DONOTHING*/ 0;
     };
 

@@ -25,7 +25,7 @@
 /*
  * Missing/rename constants in Gothic 1
  */
-const int   FIGHT_DIST_CANCEL        = HAI_DIST_ABORT_RANGED; // Same, just different name in Gothic 1
+// const int   FIGHT_DIST_CANCEL        = HAI_DIST_ABORT_RANGED; // Same, just different name in Gothic 1
 const float RANGED_CHANCE_MINDIST    = 1500;                  // Taken from Gothic 2 (does not exist in Gothic 1)
 const float RANGED_CHANCE_MAXDIST    = 4500;
 const int   ITEM_NFOCUS              = 1<<23;                 // Same as in Gothic 2 (just not defined in the scripts)
@@ -91,14 +91,14 @@ func void Wld_StopEffect(var string effectName) {
 };
 
 
-/*
- * Emulate the Gothic 2 deadalus function C_NpcIsUndead(), based on the specifications in
- * Gothic 1: oCSpell::IsTargetTypeValid()+149h 0x47DD09
- */
-func int C_NpcIsUndead(var C_Npc slf) {
-    if (slf.guild == GIL_ZOMBIE)
-    || (slf.guild == GIL_UNDEADORC)
-    || (slf.guild == GIL_SKELETON) {
-        return TRUE;
-    };
-};
+// /*
+//  * Emulate the Gothic 2 deadalus function C_NpcIsUndead(), based on the specifications in
+//  * Gothic 1: oCSpell::IsTargetTypeValid()+149h 0x47DD09
+//  */
+// func int C_NpcIsUndead(var C_Npc slf) {
+//     if (slf.guild == GIL_ZOMBIE)
+//     || (slf.guild == GIL_UNDEADORC)
+//     || (slf.guild == GIL_SKELETON) {
+//         return TRUE;
+//     };
+// };

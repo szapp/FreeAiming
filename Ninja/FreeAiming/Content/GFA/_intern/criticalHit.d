@@ -230,7 +230,7 @@ func void GFA_CH_DetectCriticalHit() {
 
     // Check if NPC is down, function is not yet defined at time of parsing
     MEM_PushInstParam(targetNpc);
-    MEM_Call(C_NpcIsDown); // C_NpcIsDown(targetNpc);
+    MEM_Call(Ninja_FreeAiming_C_NpcIsDown); // C_NpcIsDown(targetNpc);
     if (MEM_PopIntResult()) {
         return;
     };

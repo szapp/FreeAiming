@@ -231,12 +231,13 @@ func int GFA_AimRay(var int distance, var int focusType, var int vobPtr, var int
                 // Check if NPC is undead, function is not yet defined at time of parsing
                 var C_Npc target; target = _^(her.focus_vob);
                 MEM_PushInstParam(target);
-                MEM_Call(C_NpcIsUndead); // C_NpcIsUndead(target);
+                MEM_Call(Ninja_FreeAiming_NpcIsUndead); // C_NpcIsUndead(target);
                 var int npcIsUndead; npcIsUndead = MEM_PopIntResult();
 
                 // More detailed focus type tests
                 if (focusType == TARGET_TYPE_NPCS)                                           // Focus any NPC
-                || ((focusType == TARGET_TYPE_ORCS) && (target.guild > GIL_SEPERATOR_ORC))   // Only focus orcs
+                || ((focusType == TARGET_TYPE_ORCS)
+                    && (target.guild > Ninja_FreeAiming_GIL_SEPERATOR_ORC))                  // Only focus orcs
                 || ((focusType == TARGET_TYPE_HUMANS) && (target.guild < GIL_SEPERATOR_HUM)) // Only focus humans
                 || ((focusType == TARGET_TYPE_UNDEAD) && (npcIsUndead)) {                    // Only focus undead NPCs
                     // If focus was already found

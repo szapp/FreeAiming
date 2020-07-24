@@ -113,4 +113,7 @@ func void Ninja_FreeAiming_Init() {
     if (GOTHIC_BASE_VERSION == 2) {
         HookDaedalusFuncS("C_CanNpcCollideWithSpell", "Ninja_FreeAiming_SPLCOLLIDE");
     };
+
+    // Request dependencies
+    Ninja_FreeAiming_FillConstants();
 };

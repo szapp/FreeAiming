@@ -205,7 +205,7 @@ func void GFA_SpellLockMovement() {
         // Do not allow any of the below when the player is lying after a fall
         MEM_PushInstParam(hero);
         MEM_PushIntParam(BS_LIE);
-        MEM_Call(C_BodyStateContains);
+        MEM_Call(Ninja_FreeAiming_BodyStateContains);
         if (MEM_PopIntResult()) {
             return;
         };
