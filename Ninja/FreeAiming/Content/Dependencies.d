@@ -62,30 +62,30 @@ instance Focus_Throw_Mob(C_Focus);
 instance Focus_Magic(C_Focus);
 
 // Do not overwrite! Might have different value in mod: So change the name, and fill below
-const int Ninja_FreeAiming_GIL_SEPERATOR_ORC = 0;
-const int Ninja_FreeAiming_FIGHT_DIST_CANCEL = 3500;
+const int Patch_FreeAiming_GIL_SEPERATOR_ORC = 0;
+const int Patch_FreeAiming_FIGHT_DIST_CANCEL = 3500;
 
-func void Ninja_FreeAiming_FillConstants() {
+func void Patch_FreeAiming_FillConstants() {
     var int symbPtr;
     var zCPar_Symbol symb;
 
     symbPtr = MEM_GetSymbol("FIGHT_DIST_CANCEL");
     if (symbPtr) {
         symb = _^(symbPtr);
-        Ninja_FreeAiming_FIGHT_DIST_CANCEL = symb.content;
+        Patch_FreeAiming_FIGHT_DIST_CANCEL = symb.content;
     };
 
     symbPtr = MEM_GetSymbol("GIL_SEPERATOR_ORC");
     if (symbPtr) {
         symb = _^(symbPtr);
-        Ninja_FreeAiming_GIL_SEPERATOR_ORC = symb.content;
+        Patch_FreeAiming_GIL_SEPERATOR_ORC = symb.content;
     } else {
-        Ninja_FreeAiming_GIL_SEPERATOR_ORC = MEMINT_SwitchG1G2(37, 58);
+        Patch_FreeAiming_GIL_SEPERATOR_ORC = MEMINT_SwitchG1G2(37, 58);
     };
 };
 
 // Safer way to check, because guilds might not exist
-func int Ninja_FreeAiming_NpcIsUndead(var C_Npc slf) {
+func int Patch_FreeAiming_NpcIsUndead(var C_Npc slf) {
     var int symbPtr;
     var zCPar_Symbol symb;
 
@@ -120,13 +120,13 @@ func int Ninja_FreeAiming_NpcIsUndead(var C_Npc slf) {
 };
 
 // Might not exist, make a simpler version of it here
-func int Ninja_FreeAiming_BodyStateContains(var C_Npc slf, var int bodystate) {
+func int Patch_FreeAiming_BodyStateContains(var C_Npc slf, var int bodystate) {
     bodystate = (bodystate & (BS_MAX|BS_FLAG_INTERRUPTABLE|BS_FLAG_FREEHANDS));
     return ((Npc_GetBodyState(slf) & (BS_MAX|BS_FLAG_INTERRUPTABLE|BS_FLAG_FREEHANDS)) == bodystate);
 };
 
 // Might not exist
-func int Ninja_FreeAiming_C_NpcIsDown(var C_NPC slf) {
+func int Patch_FreeAiming_C_NpcIsDown(var C_NPC slf) {
     var int symbPtr;
     var zCPar_Symbol symb;
     var MEMINT_HelperClass f;

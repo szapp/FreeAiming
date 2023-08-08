@@ -4,6 +4,18 @@
 func void Ninja_FreeAiming_Menu(var int menuPtr) {
     MEM_InitAll();
 
+    // Check if GFA is already installed
+    const int once = 0;
+    if (!once) {
+        if (MEM_GetSymbolIndex("GFA_Init") < Ninja_Symbols_Start_FreeAiming) {
+            MEM_SendToSpy(zERR_TYPE_FATAL,
+                          "Gothic Free Aim [GFA] is already installed. Remove the Free Aiming patch to continue.");
+            return;
+        };
+        once = 1;
+    };
+
+
     // Get menu and menu item list, corresponds to the contents of C_MENU_DEF.items[]
     var zCMenu menu; menu = _^(menuPtr);
     var int items; items = _@(menu.m_listItems_array);
@@ -15,7 +27,7 @@ func void Ninja_FreeAiming_Menu(var int menuPtr) {
 
         // Guess language
         var string itm1Str; var string itm2Str;
-        var int loc; loc = Ninja_FreeAiming_GuessLocalization();
+        var int loc; loc = Patch_FreeAiming_GuessLocalization();
         if (loc == 0) {
             itm1Str = "MENUITEM_OPT_EN_GFA";
             itm2Str = "MENUITEM_OPT_EN_GFA_CHOICE";
@@ -39,8 +51,8 @@ func void Ninja_FreeAiming_Menu(var int menuPtr) {
         if (!itm1) {
             var zCMenuItem itmNew;
             var zCMenuItem itm;
-            itm1 = Ninja_FreeAiming_CreateMenuItem(itm1Str);
-            itm2 = Ninja_FreeAiming_CreateMenuItem(itm2Str);
+            itm1 = Patch_FreeAiming_CreateMenuItem(itm1Str);
+            itm2 = Patch_FreeAiming_CreateMenuItem(itm2Str);
 
             // Align appearance of left menu item to the existing entry
             repeat(index, MEM_ArraySize(items)); var int index;
@@ -111,9 +123,9 @@ func void Ninja_FreeAiming_Init() {
 
     // Inject changes into C_CanNpcCollideWithSpell
     if (GOTHIC_BASE_VERSION == 2) {
-        HookDaedalusFuncS("C_CanNpcCollideWithSpell", "Ninja_FreeAiming_SPLCOLLIDE");
+        HookDaedalusFuncS("C_CanNpcCollideWithSpell", "Patch_FreeAiming_SPLCOLLIDE");
     };
 
     // Request dependencies
-    Ninja_FreeAiming_FillConstants();
+    Patch_FreeAiming_FillConstants();
 };

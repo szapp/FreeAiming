@@ -249,13 +249,13 @@ func void GFA_IsActive() {
             // Check if standing
             MEM_PushInstParam(hero);
             MEM_PushIntParam(BS_STAND);
-            MEM_Call(Ninja_FreeAiming_BodyStateContains);
+            MEM_Call(Patch_FreeAiming_BodyStateContains);
             standing = MEM_PopIntResult();
 
             // Exception: receiving damage removes standing body state
             MEM_PushInstParam(hero);
             MEM_PushIntParam(BS_STUMBLE);
-            MEM_Call(Ninja_FreeAiming_BodyStateContains);
+            MEM_Call(Patch_FreeAiming_BodyStateContains);
             stumbling = MEM_PopIntResult();
 
             if (!standing) && (!stumbling) && (!GFA_InvestingOrCasting(hero)) {
@@ -296,13 +296,13 @@ func void GFA_IsActive() {
             // Check if standing
             MEM_PushInstParam(hero);
             MEM_PushIntParam(BS_STAND);
-            MEM_Call(Ninja_FreeAiming_BodyStateContains);
+            MEM_Call(Patch_FreeAiming_BodyStateContains);
             standing = MEM_PopIntResult();
 
             // Exception: receiving damage removes standing body state
             MEM_PushInstParam(hero);
             MEM_PushIntParam(BS_STUMBLE);
-            MEM_Call(Ninja_FreeAiming_BodyStateContains);
+            MEM_Call(Patch_FreeAiming_BodyStateContains);
             stumbling = MEM_PopIntResult();
 
             if (!standing) && (!stumbling) {

@@ -53,7 +53,7 @@ func int GFA_GetCollisionWithNpc(var C_Npc shooter, var C_Npc target, var C_Item
     }; */
 
     // Fix AI reaction
-    if (Npc_IsPlayer(shooter)) && (Npc_GetDistToPlayer(target) > Ninja_FreeAiming_FIGHT_DIST_CANCEL) {
+    if (Npc_IsPlayer(shooter)) && (Npc_GetDistToPlayer(target) > Patch_FreeAiming_FIGHT_DIST_CANCEL) {
         // If player is too far away, do nothing. This is important, because of a limitation in the AI. NPCs do not
         // react to damage if they are shot from outside of the ranged combat distance. This check fixes the problem
         return DESTROY;
