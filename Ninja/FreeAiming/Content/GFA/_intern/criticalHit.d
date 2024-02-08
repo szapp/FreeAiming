@@ -48,15 +48,15 @@ func void GFA_CH_GetCriticalHit_(var C_Npc target, var int dmgMsgPtr) {
     };
 
     // Correct negative damage
-    var DmgMsg damage; damage = _^(dmgMsgPtr);
+    var GFA_DmgMsg damage; damage = _^(dmgMsgPtr);
     if (lf(damage.value, FLOATNULL)) {
         damage.value = FLOATNULL;
     };
 
     // Verify damage behavior
-    if (damage.behavior < DMG_NO_CHANGE) || (damage.behavior > DMG_BEHAVIOR_MAX) {
+    if (damage.behavior < GFA_DMG_NO_CHANGE) || (damage.behavior > GFA_DMG_BEHAVIOR_MAX) {
         MEM_SendToSpy(zERR_TYPE_WARN, "GFA_CH_GetCriticalHit_: Invalid damage behavior!");
-        damage.behavior = DMG_NO_CHANGE;
+        damage.behavior = GFA_DMG_NO_CHANGE;
     };
 
     return;
@@ -246,12 +246,12 @@ func void GFA_CH_DetectCriticalHit() {
     };
 
     // Create damage message
-    var int dmgMsgPtr; dmgMsgPtr = MEM_Alloc(sizeof_DmgMsg);
-    var DmgMsg damage; damage = _^(dmgMsgPtr);
+    var int dmgMsgPtr; dmgMsgPtr = MEM_Alloc(sizeof_GFA_DmgMsg);
+    var GFA_DmgMsg damage; damage = _^(dmgMsgPtr);
     damage.value      = MEM_ReadInt(damagePtr);
     damage.type       = damageIndex;
     damage.protection = protection; // G1: depends on damage type, G2: always point protection
-    damage.behavior   = DMG_NO_CHANGE;
+    damage.behavior   = GFA_DMG_NO_CHANGE;
     damage.info       = "";
 
     // Update damage message in config
@@ -282,20 +282,20 @@ func void GFA_CH_DetectCriticalHit() {
 
         // Manipulate final damage
         var int newFinalDamage; newFinalDamage = finalDamage;
-        if (damage.behavior == DMG_DO_NOT_KNOCKOUT) {
+        if (damage.behavior == GFA_DMG_DO_NOT_KNOCKOUT) {
             damageBehaviorStr = "Normal damage, prevent knockout (HP != 1)";
             if (finalDamage == targetNpc.attribute[ATR_HITPOINTS]-1) {
                 newFinalDamage = targetNpc.attribute[ATR_HITPOINTS]; // Never 1 HP
             };
-        } else if (damage.behavior == DMG_DO_NOT_KILL) {
+        } else if (damage.behavior == GFA_DMG_DO_NOT_KILL) {
             damageBehaviorStr = "Normal damage, prevent kill (HP > 0)";
             if (finalDamage >= targetNpc.attribute[ATR_HITPOINTS]) {
                 newFinalDamage = targetNpc.attribute[ATR_HITPOINTS]-1; // Never 0 HP
             };
-        } else if (damage.behavior == DMG_INSTANT_KNOCKOUT) {
+        } else if (damage.behavior == GFA_DMG_INSTANT_KNOCKOUT) {
             damageBehaviorStr = "Instant knockout (1 HP)";
             newFinalDamage = targetNpc.attribute[ATR_HITPOINTS]-1; // 1 HP
-        } else if (damage.behavior == DMG_INSTANT_KILL) {
+        } else if (damage.behavior == GFA_DMG_INSTANT_KILL) {
             damageBehaviorStr = "Instant kill (0 HP)";
             newFinalDamage = targetNpc.attribute[ATR_HITPOINTS]; // 0 HP
         };

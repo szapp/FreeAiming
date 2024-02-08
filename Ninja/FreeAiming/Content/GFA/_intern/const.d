@@ -137,19 +137,19 @@ var   string GFA_HitModelNode;                              // Name of model nod
 
 var   int    GFA_ProjectilePtr;                             // Pointer of currently colliding projectile (temporary)
 
-const int    DMG_NO_CHANGE          = 0;                    // Do not adjust the damage
-const int    DMG_DO_NOT_KNOCKOUT    = 1;                    // Normal damage, shot may kill but never knockout (HP != 1)
-const int    DMG_DO_NOT_KILL        = 2;                    // Normal damage, shot may knockout but never kill (HP > 0)
-const int    DMG_INSTANT_KNOCKOUT   = 3;                    // One shot knockout (HP = 1)
-const int    DMG_INSTANT_KILL       = 4;                    // One shot kill (HP = 0)
+const int    GFA_DMG_NO_CHANGE         = 0;                 // Do not adjust the damage
+const int    GFA_DMG_DO_NOT_KNOCKOUT   = 1;                 // Normal damage, shot may kill but never knockout (HP != 1)
+const int    GFA_DMG_DO_NOT_KILL       = 2;                 // Normal damage, shot may knockout but never kill (HP > 0)
+const int    GFA_DMG_INSTANT_KNOCKOUT  = 3;                 // One shot knockout (HP = 1)
+const int    GFA_DMG_INSTANT_KILL      = 4;                 // One shot kill (HP = 0)
 
-const int    DMG_BEHAVIOR_MAX       = 4;
+const int    GFA_DMG_BEHAVIOR_MAX      = 4;
 
-const int   GFA_GIL_SEPERATOR_ORC   = 0;                    // Do not overwrite! These constants are auto-filled in
-const int   GFA_FIGHT_DIST_CANCEL   = 3500;                 // GFA_FillConstants according to the values found in the
-const float GFA_RANGED_CHANCE_MINDIST = 1500;               // corresponding Daedalus script constants of the mod.
-const float GFA_RANGED_CHANCE_MAXDIST = 4500;               // This ensures the existence of the constants
-const int   GFA_NPC_MINIMAL_DAMAGE  = 0;
+const int    GFA_GIL_SEPERATOR_ORC     = 0;                 // Do not overwrite! These constants are auto-filled in
+const int    GFA_FIGHT_DIST_CANCEL     = 3500;              // GFA_FillConstants according to the values found in the
+const float  GFA_RANGED_CHANCE_MINDIST = 1500;              // corresponding Daedalus script constants of the mod.
+const float  GFA_RANGED_CHANCE_MAXDIST = 4500;              // This ensures the existence of the constants
+const int    GFA_NPC_MINIMAL_DAMAGE    = 1;
 
 
 /* Debugging */

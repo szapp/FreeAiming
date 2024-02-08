@@ -158,6 +158,10 @@ func int GFA_SetupAimVob(var int posPtr) {
 
         // Do not preserve across game saves
         vob.bitfield[4] = vob.bitfield[4] | zCVob_bitfield4_dontWriteIntoArchive;
+
+        // Set to non-focusable
+        var C_Item itm; itm = _^(vobPtr);
+        itm.flags = itm.flags | GFA_ITEM_NFOCUS;
     };
 
     // Update position and rotation

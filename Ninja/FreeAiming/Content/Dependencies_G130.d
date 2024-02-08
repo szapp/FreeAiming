@@ -2,7 +2,7 @@
  * Re-write common constants that might be missing in mods
  * ONLY DEFINE CONSTANTS THAT HAVE DEFINITELY ALWAYS THE SAME VALUES!
  */
-const int IDX_EXE       = 1; // Game version index
+const int IDX_EXE       = 2; // Game version index
 
 const int ATR_STRENGTH  = 4;
 const int ATR_DEXTERITY = 5;
@@ -10,8 +10,8 @@ const int ATR_DEXTERITY = 5;
 const int FMODE_NONE    = 0;
 const int FMODE_FIST    = 1;
 const int FMODE_MELEE   = 2;
-const int FMODE_FAR     = 6; // Sequel
-const int FMODE_MAGIC   = 8; // Sequel
+const int FMODE_FAR     = 5; // Sequel 6
+const int FMODE_MAGIC   = 7; // Sequel 8
 
 const int PROT_POINT    = 6;
 
@@ -19,8 +19,8 @@ const int ITEM_KAT_MUN  = 1 << 3;
 const int ITEM_BOW      = 1 << 19;
 const int ITEM_CROSSBOW = 1 << 20;
 
-const int NPC_TALENT_BOW      = 4; // Sequel
-const int NPC_TALENT_CROSSBOW = 5; // Sequel
+const int NPC_TALENT_BOW      = 3; // Sequel 5
+const int NPC_TALENT_CROSSBOW = 4; // Sequel 5
 
 const int NPC_RUN             = 0;
 const int NPC_SNEAK           = 2;

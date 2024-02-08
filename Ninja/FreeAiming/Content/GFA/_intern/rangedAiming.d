@@ -40,8 +40,8 @@ func void GFA_RangedIdle() {
             distance = roundf(divf(mulf(distance, FLOAT1C), mkf(GFA_MAX_DIST))); // Distance scaled between [0, 100]
 
             // Create reticle
-            var int reticlePtr; reticlePtr = MEM_Alloc(sizeof_Reticle);
-            var Reticle reticle; reticle = _^(reticlePtr);
+            var int reticlePtr; reticlePtr = MEM_Alloc(sizeof_GFA_Reticle);
+            var GFA_Reticle reticle; reticle = _^(reticlePtr);
             reticle.texture = ""; // Do not show reticle by default
             reticle.color = -1; // Do not set color by default
             reticle.size = 75; // Medium size by default
@@ -93,8 +93,8 @@ func void GFA_RangedAiming() {
     distance = roundf(divf(mulf(distance, FLOAT1C), mkf(GFA_MAX_DIST))); // Distance scaled between [0, 100]
 
     // Create reticle
-    var int reticlePtr; reticlePtr = MEM_Alloc(sizeof_Reticle);
-    var Reticle reticle; reticle = _^(reticlePtr);
+    var int reticlePtr; reticlePtr = MEM_Alloc(sizeof_GFA_Reticle);
+    var GFA_Reticle reticle; reticle = _^(reticlePtr);
     reticle.texture = ""; // Do not show reticle by default
     reticle.color = -1; // Do not set color by default
     reticle.size = 75; // Medium size by default

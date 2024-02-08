@@ -1,9 +1,10 @@
 Ikarus
 LeGo
 
-Content\Dependencies.d
+Content\Dependencies_G1.d
 
 Content\GFA\GFA_G1.src
 
-Content\Misc.d
+Content\Localization.d
+Content\Menu.d
 Content\Init.d

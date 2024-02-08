@@ -4,15 +4,20 @@ BaseDir=.\
 VDFName=.\FreeAiming.vdf
 
 [FILES]
-README_FreeAiming.txt
 
 ; Resources (list the specific files from _work here)
 _work\Data\Anims\_compiled\Humans*_Aim_Hurt.man
 _work\Data\Anims\_compiled\Humans*_Aim_Move*.man
-_work\Data\Textures\_compiled\Reticle*-C.tex
+_work\Data\Textures\_compiled\GFA_Reticle*-C.tex
 
 ; Script files
-Ninja\FreeAiming\* -r
+Ninja\FreeAiming\*.src -r
+Ninja\FreeAiming\*.d -r
+Ninja\FreeAiming\*.mds -r
+
+; Readme and license
+README_FreeAiming.txt
+Ninja\FreeAiming\Content\GFA\LICENSE
 
 [EXCLUDE]
 _work\Data\Scripts\* -r

@@ -23,7 +23,7 @@ const int GFA_HITMARKER = 0;
  * GFA_GetCriticalHitAutoAim() below.
  *
  * The damage value is a float and represents the new base damage (damage of weapon), not the final damage!
- * All possible damage behaviors are defined in _intern/const.d (DMG_*).
+ * All possible damage behaviors are defined in _intern/const.d (GFA_DMG_*).
  *
  * Note: This function is specific to free aiming. For critical hits without free aiming see GFA_GetCriticalHitAutoAim()
  *       below.
@@ -34,7 +34,7 @@ const int GFA_HITMARKER = 0;
  * Here, preliminary critical hits for almost all Gothic 1 and Gothic 2 monsters are defined (all head shots).
  */
 func void GFA_GetCriticalHit(var C_Npc target, var string bone, var C_Item weapon, var int talent, var int dmgMsgPtr) {
-    var DmgMsg damage; damage = _^(dmgMsgPtr);
+    var GFA_DmgMsg damage; damage = _^(dmgMsgPtr);
 
     // In case this helps with differentiating between NPC types: Exact instance name, e.g. "ORCWARRIOR_LOBART1"
     var string instName; instName = MEM_ReadString(MEM_GetSymbolByIndex(Hlp_GetInstanceID(target)));
@@ -65,7 +65,7 @@ func void GFA_GetCriticalHit(var C_Npc target, var string bone, var C_Item weapo
     /*
     // Instant kill on head shot
     if (Hlp_StrCmp(bone, "BIP01 HEAD")) {
-        damage.behavior = DMG_INSTANT_KILL;
+        damage.behavior = GFA_DMG_INSTANT_KILL;
         return;
     };*/
 
@@ -152,7 +152,7 @@ func void GFA_GetCriticalHit(var C_Npc target, var string bone, var C_Item weapo
                                                     GFA_RETICLE_MAX_SIZE, GFA_RETICLE_MAX_SIZE); // Size
 
             // Get 7th frame of animated texture as static texture
-            ViewPtr_SetTexture(GFA_HITMARKER, GFA_AnimateReticleByPercent(RETICLE_TRI_IN, 100, 7));
+            ViewPtr_SetTexture(GFA_HITMARKER, GFA_AnimateReticleByPercent(GFA_RETICLE_TRI_IN, 100, 7));
         };
         ViewPtr_Open(GFA_HITMARKER);
 
@@ -196,7 +196,7 @@ func void GFA_RemoveHitMarker() {
  * Some examples are written below (section of Gothic 2) and commented out and serve as inspiration of what is possible.
  */
 func void GFA_GetCriticalHitAutoAim(var C_Npc target, var C_Item weapon, var int talent, var int dmgMsgPtr) {
-    var DmgMsg damage; damage = _^(dmgMsgPtr);
+    var GFA_DmgMsg damage; damage = _^(dmgMsgPtr);
 
     // In case this helps with differentiating between NPC types: Exact instance name, e.g. "ORCWARRIOR_LOBART1"
     var string instName; instName = MEM_ReadString(MEM_GetSymbolByIndex(Hlp_GetInstanceID(target)));

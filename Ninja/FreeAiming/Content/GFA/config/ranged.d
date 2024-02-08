@@ -27,11 +27,15 @@
  * recoil, see GFA_GetRecoil() below. All of this is a design choice and can be changed in the functions in this file.
  */
 func int GFA_GetDrawForce(var C_Item weapon, var int talent) {
-    var int drawForce;
 
+    // Default:
+    // Remove the following lines if you  want to use this configuration function!
     if (STR_ToInt(MEM_GetGothOpt("GFA", "freeAimingEnabled")) < 2) {
         return 100;
     };
+    // --- Everything below is ignored ---
+
+    var int drawForce;
 
     // Differentiate between bows and crossbows
     if (weapon.flags & ITEM_BOW) {
@@ -90,8 +94,9 @@ func int GFA_GetAccuracy(var C_Item weapon, var int talent) {
     // Scale accuracy by draw force
     var int accuracy; accuracy = (talent * drawForce) / 100;
 
-    // Decrease accuracy if moving by 0.2
-    if (GFA_IsStrafing) && (STR_ToInt(MEM_GetGothOpt("GFA", "freeAimingEnabled")) > 1) {
+    // Decrease accuracy if moving by 0.2 -- here, only with an extended menu-setting
+    if (GFA_IsStrafing)
+    && (STR_ToInt(MEM_GetGothOpt("GFA", "freeAimingEnabled")) > 1) { // Remove this line to always add strafing modifier
         accuracy = accuracy*(4/5);
     };
 
@@ -110,9 +115,14 @@ func int GFA_GetAccuracy(var C_Item weapon, var int talent) {
  * aiming time (better draw force), see GFA_GetDrawForce() above.
  */
 func int GFA_GetRecoil(var C_Item weapon, var int talent) {
+
+    // Default:
+    // Remove the following lines if you  want to use this configuration function!
     if (STR_ToInt(MEM_GetGothOpt("GFA", "freeAimingEnabled")) < 2) {
         return 0;
     };
+    // --- Everything below is ignored ---
+
 
     // No recoil for bows, since they have longer draw time, see GFA_GetDrawForce() above.
     if (weapon.flags & ITEM_BOW) {
@@ -158,10 +168,15 @@ func int GFA_GetRecoil(var C_Item weapon, var int talent) {
  * crossbow only briefly held steady.
  */
 func int GFA_GetInitialBaseDamage(var int baseDamage, var int damageType, var C_Item weapon, var int talent,
-        var int aimingDistance) {
+                                  var int aimingDistance) {
+
+    // Default:
+    // Remove the following lines if you  want to use this configuration function!
     if (STR_ToInt(MEM_GetGothOpt("GFA", "freeAimingEnabled")) < 2) {
         return baseDamage;
     };
+    // --- Everything below is ignored ---
+
 
     // Here the damage is scaled by draw force:
     //  Draw force = 100% -> baseDamage

@@ -39,7 +39,7 @@ func void GFA_RemoveReticle() {
  */
 func void GFA_InsertReticle(var int reticlePtr) {
     // Get reticle instance from call-by-reference argument
-    var Reticle reticle; reticle = _^(reticlePtr);
+    var GFA_Reticle reticle; reticle = _^(reticlePtr);
     var int size;
 
     // Only draw the reticle if the texture is specified. An empty texture removes the reticle

@@ -522,11 +522,7 @@ func void GFA_CC_FadeProjectileVisibility() {
  */
 func int GFA_CC_DisableProjectileCollisionOnRebound(var int vobPtr, var int arrowAI) {
     // Check if the projectile bounced off of a surface before
-    if (MEM_ReadInt(arrowAI+oCAIArrowBase_creatingImpactFX_offset)) {
-        return FALSE;
-    } else {
-        return TRUE;
-    };
+    return (!MEM_ReadInt(arrowAI+oCAIArrowBase_creatingImpactFX_offset));
 };
 
 
@@ -544,13 +540,9 @@ func int GFA_CC_DisableProjectileCollisionWithTrigger(var int vobPtr, var int ar
     };
     var zCTrigger trigger; trigger = _^(vobPtr);
 
-    if (trigger.bitfield & zCTrigger_bitfield_respondToObject)
-    && (trigger.bitfield & zCTrigger_bitfield_reactToOnTouch) {
-        // Object-reacting trigger. This kind of trigger needs the collision, e.g. to react to projectiles
-        return TRUE;
-    } else {
-        return FALSE;
-    };
+    // Object-reacting trigger. This kind of trigger needs the collision, e.g. to react to projectiles
+    const int reactToTouchAndObject = zCTrigger_bitfield_respondToObject | zCTrigger_bitfield_reactToOnTouch;
+    return ((trigger.bitfield & reactToTouchAndObject) == reactToTouchAndObject);
 };
 
 
