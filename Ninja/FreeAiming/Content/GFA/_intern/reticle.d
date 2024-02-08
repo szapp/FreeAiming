@@ -141,7 +141,7 @@ func void GFA_GetSpellReticle_(var int target, var C_Spell spellInst, var int di
     // Define spell properties
     var int spellID; spellID = Npc_GetActiveSpell(hero);
     var int spellLvl; spellLvl = Npc_GetActiveSpellLevel(hero);
-    var int isScroll; isScroll = Npc_GetActiveSpellIsScroll(hero);
+    var int isScroll; isScroll = GFA_GetActiveSpellIsScroll(hero);
 
     // Getting the amount of mana invested takes a bit more effort
     var int spellOC; spellOC = _@(spellInst)-oCSpell_C_Spell_offset;

@@ -116,16 +116,8 @@ func void Ninja_FreeAiming_Menu(var int menuPtr) {
  */
 func void Ninja_FreeAiming_Init() {
     // Wrapper for "LeGo_Init" to ensure correct LeGo initialization without breaking the mod
-    LeGo_MergeFlags(GFA_LEGO_FLAGS);
+    LeGo_MergeFlags(GFA_LEGO_FLAGS | LeGo_Draw3D);
 
     // Initialize GFA
     GFA_Init(GFA_ALL & ~GFA_REUSE_PROJECTILES);
-
-    // Inject changes into C_CanNpcCollideWithSpell
-    if (GOTHIC_BASE_VERSION == 2) {
-        HookDaedalusFuncS("C_CanNpcCollideWithSpell", "Patch_FreeAiming_SPLCOLLIDE");
-    };
-
-    // Request dependencies
-    Patch_FreeAiming_FillConstants();
 };

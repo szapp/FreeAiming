@@ -79,7 +79,7 @@ func int GFA_GetAccuracy(var C_Item weapon, var int talent) {
     //  Draw force =   0% -> accuracy = hit chance * 0.8
 
     // In Gothic 1, the hit chance is actually the dexterity (for both bows and crossbows), NOT the talent!
-    if (GOTHIC_BASE_VERSION == 1) {
+    if (GOTHIC_BASE_VERSION == 1) || (GOTHIC_BASE_VERSION == 112) {
         talent = hero.attribute[ATR_DEXTERITY];
     };
 

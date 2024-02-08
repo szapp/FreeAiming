@@ -1,7 +1,7 @@
 Free Aiming Patch
 =================
 
-Free aiming patch for Gothic and Gothic 2 NotR
+Free aiming patch for Gothic, Gothic Sequel, Gothic 2 and Gothic 2 NotR
 
 
 Settings

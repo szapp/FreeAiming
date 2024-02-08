@@ -93,7 +93,7 @@ func void GFA_CH_VisualizeModelNode(var int npcPtr, var string nodeName) {
     // Retrieve model of the NPC
     var zCVob npc; npc = _^(npcPtr);
     var int model; model = npc.visual;
-    if (!objCheckInheritance(model, zCModel__classDef)) {
+    if (!GFA_ObjCheckInheritance(model, zCModel__classDef)) {
         MEM_SendToSpy(zERR_TYPE_WARN, "GFA_CH_VisualizeModelNode: NPC visual is not a model");
         return;
     };
@@ -198,7 +198,7 @@ func void GFA_CH_VisualizeModelNode(var int npcPtr, var string nodeName) {
  */
 func void GFA_CH_DetectCriticalHit() {
     // First check if shooter is player
-    var int arrowAI; arrowAI = MEMINT_SwitchG1G2(ESI, EBP);
+    var int arrowAI; arrowAI = GFA_SwitchExe(ESI, ESI, EBP, EBP);
     var C_Npc shooter; shooter = _^(MEM_ReadInt(arrowAI+oCAIArrow_origin_offset));
     if (!Npc_IsPlayer(shooter)) {
         return;
@@ -222,16 +222,26 @@ func void GFA_CH_DetectCriticalHit() {
         return;
     };
 
-    var int damagePtr; damagePtr = MEMINT_SwitchG1G2(/*esp+48h-48h*/ ESP, /*esp+1ACh-C8h*/ ESP+228); // zREAL*
-    var int targetPtr; targetPtr = MEMINT_SwitchG1G2(EBX, MEM_ReadInt(/*esp+1ACh-190h*/ ESP+28)); // oCNpc*
+    var int offset; offset = GFA_SwitchExe(/*48h-48h*/ 0, 0, 224, /*1ACh-C8h*/ 228);
+    var int damagePtr; damagePtr = ESP+offset; // zREAL*
+    var int targetPtr;
+    if (GOTHIC_BASE_VERSION == 1) {
+        targetPtr = EBX; // oCNpc*
+    } else if (GOTHIC_BASE_VERSION == 112) {
+        targetPtr = EBP; // oCNpc*
+    } else {
+        targetPtr = MEM_ReadInt(/*esp+1ACh-190h*/ ESP+28); // oCNpc*
+    };
     var C_Npc targetNpc; targetNpc = _^(targetPtr);
-    var int protection; protection = MEMINT_SwitchG1G2(MEM_ReadStatArr(_@(targetNpc.protection), damageIndex),
-                                                       targetNpc.protection[PROT_POINT]); // G2: always point protection
+    var int protection;
+    if (GOTHIC_BASE_VERSION == 1) || (GOTHIC_BASE_VERSION == 112) {
+        protection = MEM_ReadStatArr(_@(targetNpc.protection), damageIndex);
+    } else {
+        protection = targetNpc.protection[PROT_POINT]; // G2: always point protection
+    };
 
     // Check if NPC is down, function is not yet defined at time of parsing
-    MEM_PushInstParam(targetNpc);
-    MEM_Call(Patch_FreeAiming_C_NpcIsDown); // C_NpcIsDown(targetNpc);
-    if (MEM_PopIntResult()) {
+    if (GFA_NpcIsDown(targetNpc)) {
         return;
     };
 
@@ -258,15 +268,15 @@ func void GFA_CH_DetectCriticalHit() {
 
         // Calculate final damage (to be applied to the target) from base damage
         var int finalDamage;
-        if (GOTHIC_BASE_VERSION == 1) {
+        if (GOTHIC_BASE_VERSION == 1) || (GOTHIC_BASE_VERSION == 112) {
             finalDamage = baseDamage-protection;
             if (finalDamage < 0) {
                 finalDamage = 0;
             };
         } else {
             finalDamage = (baseDamage+hero.attribute[ATR_DEXTERITY])-protection;
-            if (finalDamage < NPC_MINIMAL_DAMAGE) {
-                finalDamage = NPC_MINIMAL_DAMAGE;
+            if (finalDamage < GFA_NPC_MINIMAL_DAMAGE) {
+                finalDamage = GFA_NPC_MINIMAL_DAMAGE;
             };
         };
 
@@ -291,14 +301,14 @@ func void GFA_CH_DetectCriticalHit() {
         };
 
         // Adjustment for minimal damage in Gothic 2
-        if (GOTHIC_BASE_VERSION == 2) && (newFinalDamage < NPC_MINIMAL_DAMAGE) {
-            targetNpc.attribute[ATR_HITPOINTS] += NPC_MINIMAL_DAMAGE;
-            newFinalDamage += NPC_MINIMAL_DAMAGE;
+        if ((GOTHIC_BASE_VERSION == 130) || (GOTHIC_BASE_VERSION == 2)) && (newFinalDamage < GFA_NPC_MINIMAL_DAMAGE) {
+            targetNpc.attribute[ATR_HITPOINTS] += GFA_NPC_MINIMAL_DAMAGE;
+            newFinalDamage += GFA_NPC_MINIMAL_DAMAGE;
         };
 
         // Calculate new base damage from adjusted newFinalDamage
         var int newBaseDamage;
-        if (GOTHIC_BASE_VERSION == 1) {
+        if (GOTHIC_BASE_VERSION == 1) || (GOTHIC_BASE_VERSION == 112) {
             // If new final damage is zero, the new base damage is also
             if (newFinalDamage) {
                 newBaseDamage = newFinalDamage+protection;
@@ -309,9 +319,9 @@ func void GFA_CH_DetectCriticalHit() {
             };
         } else {
             // If new final damage is less that NPC_MINIMAL_DAMAGE, the new base damage stays zero
-            if (newFinalDamage > NPC_MINIMAL_DAMAGE) {
+            if (newFinalDamage > GFA_NPC_MINIMAL_DAMAGE) {
                 newBaseDamage = (newFinalDamage+protection)-hero.attribute[ATR_DEXTERITY];
-            } else if ((baseDamage+hero.attribute[ATR_DEXTERITY])-protection <= NPC_MINIMAL_DAMAGE) {
+            } else if ((baseDamage+hero.attribute[ATR_DEXTERITY])-protection <= GFA_NPC_MINIMAL_DAMAGE) {
                 newBaseDamage = baseDamage;
             } else {
                 newBaseDamage = 0;
@@ -354,7 +364,7 @@ func void GFA_CH_DetectCriticalHit() {
 
         SB("   damage on target:  ");
         // Calculate damage by formula (incl. protection of target, etc.)
-        if (GOTHIC_BASE_VERSION == 1) {
+        if (GOTHIC_BASE_VERSION == 1) || (GOTHIC_BASE_VERSION == 112) {
             SB("(");
             SBi(newDamageInt);
             SB(" - ");
@@ -373,13 +383,13 @@ func void GFA_CH_DetectCriticalHit() {
             SB(" - ");
             SBi(protection);
             SB("), ");
-            SBi(NPC_MINIMAL_DAMAGE);
+            SBi(GFA_NPC_MINIMAL_DAMAGE);
             SB(" ] = ");
             newDamageInt = (newDamageInt+hero.attribute[ATR_DEXTERITY])-protection;
             if (protection == /*IMMUNE*/ -1) { // Gothic 2 only
                 newDamageInt = 0;
-            } else if (newDamageInt < NPC_MINIMAL_DAMAGE) {
-                newDamageInt = NPC_MINIMAL_DAMAGE; // Minimum damage in Gothic 2 as defined in AI_Constants.d
+            } else if (newDamageInt < GFA_NPC_MINIMAL_DAMAGE) {
+                newDamageInt = GFA_NPC_MINIMAL_DAMAGE; // Minimum damage in Gothic 2 as defined in AI_Constants.d
             };
             SBi(newDamageInt);
         };
@@ -412,7 +422,8 @@ func void GFA_CH_DetectCriticalHit() {
  */
 func void GFA_CH_DisableDefaultCriticalHits() {
     // Check if shooter is player and if in ranged combat
-    var int dmgDescriptor; dmgDescriptor = MEM_ReadInt(ESP+548); // esp+220h+4h // oCNpc::oSDamageDescriptor*
+    var int offset; offset = GFA_SwitchExe(/*220h+4h*/ 548, 556, 0, 0);
+    var int dmgDescriptor; dmgDescriptor = MEM_ReadInt(ESP+offset); // oCNpc::oSDamageDescriptor*
     var C_Npc shooter; shooter = _^(MEM_ReadInt(dmgDescriptor+oSDamageDescriptor_origin_offset)); // oCNpc*
     if (Npc_IsPlayer(shooter)) && (Npc_IsInFightMode(shooter, FMODE_FAR)) {
         // 99 % 100 + 1 = 100 and 100 is always higher than the critical hit talent, if (100 > talent): no critical hit
