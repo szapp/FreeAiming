@@ -96,7 +96,8 @@ func int GFA_GetAccuracy(var C_Item weapon, var int talent) {
 
     // Decrease accuracy if moving by 0.2 -- here, only with an extended menu-setting
     if (GFA_IsStrafing)
-    && (STR_ToInt(MEM_GetGothOpt("GFA", "freeAimingEnabled")) > 1) { // Remove this line to always add strafing modifier
+    && (STR_ToInt(MEM_GetGothOpt("GFA", "freeAimingEnabled")) > 1) // Remove this line to always add strafing modifier
+    {
         accuracy = accuracy*(4/5);
     };
 

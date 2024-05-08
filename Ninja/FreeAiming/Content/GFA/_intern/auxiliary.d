@@ -38,7 +38,7 @@ func void GFA_WriteNOP(var int addr, var int len) {
 
 
 /*
- * Emulate GFA_SwitchExe of Ikarus for older Ikarus versions
+ * Emulate MEMINT_SwitchExe of Ikarus for older Ikarus versions
  * In order of likelihood for performance micro-optimization
  */
 func int GFA_SwitchExe(var int g1Val, var int g112Val, var int g130Val, var int g2Val) {
@@ -46,10 +46,10 @@ func int GFA_SwitchExe(var int g1Val, var int g112Val, var int g130Val, var int 
         return +g2Val;
     } else if (GOTHIC_BASE_VERSION == 1) {
         return +g1Val;
-    } else if (GOTHIC_BASE_VERSION == 112) {
-        return +g112Val;
-    } else {
+    } else if (GOTHIC_BASE_VERSION == 130) {
         return +g130Val;
+    } else {
+        return +g112Val;
     };
 };
 
@@ -92,19 +92,18 @@ func int GFA_ObjCheckInheritance(var int objPtr, var int classDef) {
  * Retrieve the active spell instance of an NPC. Returns an empty instance if no spell is drawn. This function is
  * usually called in conjunction with GFA_IsSpellEligible(), see below. It might prove to also be useful outside of GFA.
  */
-func MEMINT_HelperClass GFA_GetActiveSpellInst(var C_Npc npc) {
-    if (Npc_GetActiveSpell(npc) == -1) {
+func MEMINT_HelperClass GFA_GetActiveSpellInst(var C_Npc slf) {
+    if (Npc_GetActiveSpell(slf) == -1) {
         // NPC does not have a spell drawn
         var C_Spell ret; ret = MEM_NullToInst();
         MEMINT_StackPushInst(ret);
         return;
     };
 
-    var int npcPtr; npcPtr = _@(npc);
-    var oCNpc npcOC; npcOC = _^(npcPtr);
+    var oCNpc npc; npc = MEM_CpyInst(slf);
 
     // Get the magic book to retrieve the active spell
-    var int magBookPtr; magBookPtr = npcOC.mag_book;
+    var int magBookPtr; magBookPtr = npc.mag_book;
     const int call = 0;
     if (CALL_Begin(call)) {
         CALL__thiscall(_@(magBookPtr), oCMag_Book__GetSelectedSpell);
@@ -127,21 +126,20 @@ func int GFA_GetActiveSpellIsScroll(var C_Npc slf) {
         return MEM_PopIntResult();
     };
 
-    var int slfPtr; slfPtr = _@(slf);
-    var oCNpc slfOC; slfOC = _^(slfPtr);
+    var oCNpc npc; npc = MEM_CpyInst(slf);
 
-    if (slfOC.fmode != FMODE_MAGIC) {
+    if (npc.fmode != FMODE_MAGIC) {
         return 0;
     };
 
     // Get magic book
-    if (!slfOC.mag_book) {
+    if (!npc.mag_book) {
         return 0;
     };
 
     // Retrieve selected spell number from magic book
     const int call = 0;
-    var int magBookPtr; magBookPtr = slfOC.mag_book;
+    var int magBookPtr; magBookPtr = npc.mag_book;
     var int spellNr;
     if (CALL_Begin(call)) {
         CALL_PutRetValTo(_@(spellNr));
@@ -205,19 +203,18 @@ func int GFA_IsSpellEligible(var C_Spell spell) {
 /*
  * Returns whether an NPC is currently investing (1), casting (2) or failing (-1) a spell, otherwise 0.
  */
-func int GFA_InvestingOrCasting(var C_Npc npc) {
-    var int npcPtr; npcPtr = _@(npc);
-    var oCNpc npcOC; npcOC = _^(npcPtr);
+func int GFA_InvestingOrCasting(var C_Npc slf) {
+    var oCNpc npc; npc = MEM_CpyInst(slf);
 
     // Investing (when the cast fails, the release status is stuck, so also check dontKnowAniPlayed)
-    var int bitfield; bitfield = MEM_ReadInt(npcOC.anictrl+oCAIHuman_bitfield_offset);
+    var int bitfield; bitfield = MEM_ReadInt(npc.anictrl+oCAIHuman_bitfield_offset);
     if (!(bitfield & oCAIHuman_bitfield_spellReleased))
     && (!(bitfield & oCAIHuman_bitfield_dontKnowAniPlayed)) {
         return 1;
     };
 
     // Casting or failing (check by active animations)
-    var int model; model = npcOC._zCVob_visual;
+    var int model; model = npc._zCVob_visual;
     if (!GFA_ObjCheckInheritance(model, zCModel__classDef)) {
         MEM_Warn("GFA_InvestingOrCasting: NPC has no model visual.");
         return FALSE;
@@ -244,11 +241,11 @@ func int GFA_InvestingOrCasting(var C_Npc npc) {
     repeat(i, MEM_ReadInt(model+zCModel_numActAnis_offset)); var int i;
         var int aniID; aniID = MEM_ReadInt(MEM_ReadInt(MEM_ReadInt(actAniOffset))+zCModelAni_aniID_offset);
 
-        if (aniID == MEM_ReadInt(npcOC.anictrl+oCAniCtrl_Human_t_stand_2_cast_offset))
-        || (aniID == MEM_ReadInt(npcOC.anictrl+oCAniCtrl_Human_s_cast_offset))
-        || (aniID == MEM_ReadInt(npcOC.anictrl+oCAniCtrl_Human_t_cast_2_shoot_offset))
-        || (aniID == MEM_ReadInt(npcOC.anictrl+oCAniCtrl_Human_s_shoot_offset))
-        || (aniID == MEM_ReadInt(npcOC.anictrl+oCAniCtrl_Human_t_shoot_2_stand_offset)) {
+        if (aniID == MEM_ReadInt(npc.anictrl+oCAniCtrl_Human_t_stand_2_cast_offset))
+        || (aniID == MEM_ReadInt(npc.anictrl+oCAniCtrl_Human_s_cast_offset))
+        || (aniID == MEM_ReadInt(npc.anictrl+oCAniCtrl_Human_t_cast_2_shoot_offset))
+        || (aniID == MEM_ReadInt(npc.anictrl+oCAniCtrl_Human_s_shoot_offset))
+        || (aniID == MEM_ReadInt(npc.anictrl+oCAniCtrl_Human_t_shoot_2_stand_offset)) {
             return 2;
         };
 
@@ -343,9 +340,8 @@ func int GFA_GetWeaponAndTalent(var C_Npc slf, var int weaponPtr, var int talent
                 } else {
                     // In Gothic 2 the hit chance is the skill level
                     // talent = slf.hitChance[NPC_TALENT_BOW]; // Cannot write this, because of Gothic 1 compatibility
-                    var int slfPtr; slfPtr = _@(slf);
-                    var oCNpc slfOC; slfOC = _^(slfPtr);
-                    talent = MEM_ReadStatArr(_@(slfOC)+oCNpc_hitChance_offset, talent);
+                    var oCNpc npc; npc = MEM_CpyInst(slf);
+                    talent = MEM_ReadStatArr(_@(npc)+oCNpc_hitChance_offset, talent);
                 };
             };
         };
@@ -625,7 +621,6 @@ func int GFA_NpcIsDown(var C_Npc slf) {
 
     var int symbPtr;
     var zCPar_Symbol symb;
-    var MEMINT_HelperClass f;
 
     // if (Npc_IsInState(slf, ZS_Unconscious)
     symbPtr = MEM_GetSymbol("ZS_Unconscious");
@@ -660,41 +655,56 @@ func int GFA_NpcIsDown(var C_Npc slf) {
  * Gothic 1: oCSpell::IsTargetTypeValid()+149h 0x47DD09
  */
 func int GFA_NpcIsUndead(var C_Npc slf) {
-    var int funcId; funcId = MEM_GetSymbolIndex("C_NPCISUNDEAD");
+    const int funcId        = -2;
+    const int GIL_ZOMBIE    = 0;
+    const int GIL_UNDEADORC = 0;
+    const int GIL_SKELETON  = 0;
+
+    // Search for symbols once only
+    if (funcId == -2) {
+        funcId = MEM_GetSymbolIndex("C_NPCISUNDEAD");
+
+    var int symbPtr;
+    var zCPar_Symbol symb;
+
+    symbPtr = MEM_GetSymbol("GIL_ZOMBIE");
+    if (symbPtr) {
+        symb = _^(symbPtr);
+            GIL_ZOMBIE = symb.content;
+    };
+
+    symbPtr = MEM_GetSymbol("GIL_UNDEADORC");
+    if (symbPtr) {
+        symb = _^(symbPtr);
+            GIL_UNDEADORC = symb.content;
+    };
+
+    symbPtr = MEM_GetSymbol("GIL_SKELETON");
+    if (symbPtr) {
+        symb = _^(symbPtr);
+            GIL_SKELETON = symb.content;
+        };
+
+    };
+
+    // Call script function if it exists
     if (funcId != -1) {
         MEM_PushInstParam(slf);
         MEM_CallById(funcId);
         return MEM_PopIntResult();
     };
 
-    var int symbPtr;
-    var zCPar_Symbol symb;
-
-    // if (slf.guild == GIL_ZOMBIE)
-    symbPtr = MEM_GetSymbol("GIL_ZOMBIE");
-    if (symbPtr) {
-        symb = _^(symbPtr);
-        if (slf.guild == symb.content) {
+    // Emulate conditions
+    if (slf.guild == GIL_ZOMBIE) {
             return TRUE;
         };
+
+    if (slf.guild == GIL_UNDEADORC) {
+        return TRUE;
     };
 
-    // if (slf.guild == GIL_UNDEADORC)
-    symbPtr = MEM_GetSymbol("GIL_UNDEADORC");
-    if (symbPtr) {
-        symb = _^(symbPtr);
-        if (slf.guild == symb.content) {
-            return TRUE;
-        };
-    };
-
-    // if (slf.guild == GIL_SKELETON)
-    symbPtr = MEM_GetSymbol("GIL_SKELETON");
-    if (symbPtr) {
-        symb = _^(symbPtr);
-        if (slf.guild == symb.content) {
-            return TRUE;
-        };
+    if (slf.guild == GIL_SKELETON) {
+        return TRUE;
     };
 
     return FALSE;

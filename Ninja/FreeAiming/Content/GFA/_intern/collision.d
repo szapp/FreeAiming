@@ -82,9 +82,10 @@ func void GFA_CC_ProjectileDeflect(var int rigidBody) {
     MEM_CopyBytes(rigidBody+zCRigidBody_velocity_offset, _@(vel), sizeof_zVEC3); // zCRigidBody.velocity[3]
 
     // Adjust velocity
-    vel[0] = mulf(vel[0], 1061997773); // 0.8 as in 0x6A0AF7 (Gothic 2)
-    vel[1] = mulf(vel[1], 1061997773);
-    vel[2] = mulf(vel[2], 1061997773);
+    const int FLOAT_0_8 = 1061997773; // 0.8 as in 0x6A0AF7 (Gothic 2)
+    vel[0] = mulf(vel[0], FLOAT_0_8);
+    vel[1] = mulf(vel[1], FLOAT_0_8);
+    vel[2] = mulf(vel[2], FLOAT_0_8);
 
     // Apply velocity
     var int velPtr; velPtr = _@(vel);
@@ -187,7 +188,7 @@ func void GFA_CC_ProjectileCollisionWithNpc() {
     var int offset; offset = GFA_SwitchExe(/*3Ch-28h*/ 20, 20, /*1ACh-194h*/ 24, 24);
     var int hitChancePtr; hitChancePtr = ESP+offset;
     var int hitChance; hitChance = MEM_ReadInt(hitChancePtr);
-    if (GOTHIC_BASE_VERSION == 1) || (GOTHIC_BASE_VERSION == 112) {
+    if (GOTHIC_BASE_VERSION == 130) || (GOTHIC_BASE_VERSION == 2) {
         hitChance = mkf(hitChance);
     };
 
@@ -200,7 +201,7 @@ func void GFA_CC_ProjectileCollisionWithNpc() {
     MEM_WriteInt(arrowAI+oCAIArrowBase_creatingImpactFX_offset, collisionCounter+1);
 
     // Collision behaviors
-    const int DESTROY = 0; // Projectile doest not cause damage and vanishes
+    const int DESTROY = 0; // Projectile does not cause damage and vanishes
     const int DAMAGE  = 1; // Projectile causes damage and may stay in the inventory of the victim
     const int DEFLECT = 2; // Projectile deflects off of the surfaces and bounces off
 
