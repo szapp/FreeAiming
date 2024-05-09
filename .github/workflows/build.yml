@@ -27,6 +27,8 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          submodules: true
 
       - name: Build VDF
         uses: kirides/vdfsbuilder@aaf901f0c98245af54102a1946d8be0e2e17ba36
