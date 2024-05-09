@@ -30,6 +30,18 @@ jobs:
         with:
           submodules: true
 
+      # vdfsbuilder does not seem to follow symlinks
+      - name: Replace symlinks
+        run: |
+          unlink Ninja/FreeAiming/Content/GFA
+          unlink Ninja/FreeAiming/System/GFA
+          unlink Ninja/FreeAiming/Anims_Humans*.mds
+          mv .github/submodules/GothicFreeAim/_work/data/Scripts/Content/GFA Ninja/FreeAiming/Content/GFA
+          mv .github/submodules/GothicFreeAim/_work/data/Scripts/System/GFA Ninja/FreeAiming/System/GFA
+          mv .github/submodules/GothicFreeAim/_work/data/Anims/Humans.mds.additions Ninja/FreeAiming/Anims_Humans.mds
+          mv .github/submodules/GothicFreeAim/_work/data/Anims/MDS_Overlay/Humans_BowT2.mds.additions Ninja/FreeAiming/Anims_Humans_BowT2.mds
+          mv .github/submodules/GothicFreeAim/_work/data/Anims/MDS_Overlay/Humans_CBowT2.mds.additions Ninja/FreeAiming/Anims_Humans_CBowT2.mds
+
       - name: Build VDF
         uses: kirides/vdfsbuilder@aaf901f0c98245af54102a1946d8be0e2e17ba36
         with:
