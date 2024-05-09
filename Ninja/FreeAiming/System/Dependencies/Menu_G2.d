@@ -3,7 +3,7 @@
  * Note, that the original class/prototype are not overwritten but unique symbol names are used.
  */
 
-class GFA_C_Menu_Item /* C_Menu_Item */ {
+class GFA_C_Menu_Item {
     var string fontName;
     var string text[10];
     var string backPic;

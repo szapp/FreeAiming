@@ -3,7 +3,7 @@
  * Note, that the original class/prototype are not overwritten but unique symbol names are used.
  */
 
-class CCamSys {
+class GFA_CCamSys {
     var float bestRange;
     var float minRange;
     var float maxRange;
