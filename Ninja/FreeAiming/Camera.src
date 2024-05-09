@@ -1,1 +1,2 @@
-System\Camera\CamInstGFA.d
+System\Dependencies\Camera.d
+System\GFA\instances\CamInst.d

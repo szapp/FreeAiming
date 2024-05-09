@@ -1,1 +1,2 @@
-System\SFX\SfxInstGFA.d
+System\Dependencies\SFX.d
+System\GFA\instances\SfxInst.d

@@ -1,1 +1,2 @@
-System\PFX\PfxInstGFA_G1.d
+System\Dependencies\PFX.d
+System\GFA\instances\PfxInst_G1.d
