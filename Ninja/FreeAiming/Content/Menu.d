@@ -12,7 +12,7 @@ func int Patch_GFA_CreateMenuItem(var string scriptName) {
         strPtr = _@s(scriptName);
         CALL_PtrParam(_@(strPtr));
         CALL_PutRetValTo(_@(ret));
-        CALL__cdecl(zCMenuItem__Create[IDX_EXE]);
+        CALL__cdecl(zCMenuItem__Create[GFA_IDX_EXE]);
         call = CALL_End();
     };
 
@@ -35,7 +35,7 @@ func void Patch_GFA_UpdateMenuString(var string symbolName, var string content) 
         namePtr = _@s(symbolName);
         CALL_PtrParam(_@(namePtr));
         CALL_PutRetValTo(_@(symbPtr));
-        CALL__thiscall(_@(symTab), zCPar_SymbolTable__GetSymbol[IDX_EXE]);
+        CALL__thiscall(_@(symTab), zCPar_SymbolTable__GetSymbol[GFA_IDX_EXE]);
         call = CALL_End();
     };
 
@@ -63,7 +63,6 @@ func void Patch_GFA_UpdateMenuString(var string symbolName, var string content) 
  * UK = 10
  * TR = 11
  * CY = 12
- * ZH = 13
  */
 func int Patch_GFA_GuessLocalization() {
     var int pan; pan = MEM_GetSymbol("MOBNAME_PAN");
@@ -74,29 +73,26 @@ func int Patch_GFA_GuessLocalization() {
             return 1;
         } else if (Hlp_StrCmp(panName, "Patelnia")) {     // PL cp1250
             return 2;
-        } else if (Hlp_StrCmp(panName, "—ÍÓ‚ÓÓ‰‡")) {    // RU cp1251
+        } else if (Hlp_StrCmp(panName, "√ë√™√Æ√¢√Æ√∞√Æ√§√†")) {    // RU cp1251
             return 3;
         } else if (Hlp_StrCmp(panName, "Padella")) {      // IT cp1252
             return 4;
-        } else if (Hlp_StrCmp(panName, "SartÈn")) {       // ES cp1252
+        } else if (Hlp_StrCmp(panName, "Sart√©n")) {       // ES cp1252
             return 5;
         } else if (Hlp_StrCmp(panName, "Casserole")) {    // FR cp1252
             return 6;
-        } else if (Hlp_StrCmp(panName, "P·nviËka")) {     // CS cp1250
+        } else if (Hlp_StrCmp(panName, "P√°nvi√®ka")) {     // CS cp1250
             return 7;
-        } else if (Hlp_StrCmp(panName, "Serpenyı")) {     // HU cp1250
+        } else if (Hlp_StrCmp(panName, "Serpeny√µ")) {     // HU cp1250
             return 8;
         } else if (Hlp_StrCmp(panName, "Tigaie")) {       // RO cp1250
             return 9;
-        } else if (Hlp_StrCmp(panName, "œ‡ÚÂÎ¸Ìˇ")) {     // UK cp1251
+        } else if (Hlp_StrCmp(panName, "√è√†√≤√•√´√º√≠√ø")) {     // UK cp1251
             return 10;
         } else if (Hlp_StrCmp(panName, "Tava")) {         // TR cp1254
             return 11;
         } else if (Hlp_StrCmp(panName, "Padell")) {       // CY
             return 12;
-        } else if (Hlp_StrCmp(panName, "Âπ≥Â∫ïÈîÖ"))
-               || (Hlp_StrCmp(panName, "Èçã")) {     // ZH
-            return 13;
         };
     };
     return 0; // Otherwise EN

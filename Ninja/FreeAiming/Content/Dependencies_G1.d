@@ -2,7 +2,7 @@
  * Re-write common constants that might be missing in mods
  * ONLY DEFINE CONSTANTS THAT HAVE DEFINITELY ALWAYS THE SAME VALUES!
  */
-const int IDX_EXE       = 0; // Game version index
+const int GFA_IDX_EXE   = 0; // Game version index
 
 const int ATR_STRENGTH  = 4;
 const int ATR_DEXTERITY = 5;

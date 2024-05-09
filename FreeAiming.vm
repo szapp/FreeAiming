@@ -1,31 +1,54 @@
 [BEGINVDF]
-Comment=Free aiming patch for Gothic, Gothic Sequel, Gothic 2 and Gothic 2 NotR%%NGothic Free Aim, Copyright (C) 2016-2024  mud-freak (@szapp), subject to MIT License%%N<http://github.com/szapp/GothicFreeAim>
+Comment=Free aiming patch for Gothic, Gothic Sequel, Gothic 2 and Gothic 2 NotR%%NGothic Free Aim, Copyright (C) 2016-2024  Sören Zapp, subject to MIT License%%Nhttps://github.com/szapp/GothicFreeAim
 BaseDir=.\
 VDFName=.\FreeAiming.vdf
 
 [FILES]
+; Modular resources
+_work\Data\Anims\*.MDS
+_work\Data\Anims\MDS_Mobsi\*.MDS
+_work\Data\Anims\MDS_Overlay\*.MDS
+_work\Data\Anims\_compiled\*.MAN
+_work\Data\Anims\_compiled\*.MDH
+_work\Data\Anims\_compiled\*.MDL
+_work\Data\Anims\_compiled\*.MDM
+_work\Data\Anims\_compiled\*.MMB
+_work\Data\Anims\_compiled\*.MSB
+_work\Data\Meshes\_compiled\*.MRM
+_work\Data\Meshes\_compiled\*.MSH
+_work\Data\Presets\*.ZEN
+_work\Data\Sound\SFX\*.WAV
+_work\Data\Sound\Speech\*.WAV
+_work\Data\Textures\_compiled\*-C.TEX
+_work\Data\Textures\_compiled\*.FNT
+_work\Data\Worlds\*.ZEN
 
-; Resources (list the specific files from _work here)
-_work\Data\Anims\_compiled\Humans*_Aim_Hurt.man
-_work\Data\Anims\_compiled\Humans*_Aim_Move*.man
-_work\Data\Textures\_compiled\GFA_Reticle*-C.tex
+; Ninja resources
+Ninja\FreeAiming\* -r
 
-; Script files
-Ninja\FreeAiming\*.src -r
-Ninja\FreeAiming\*.d -r
-Ninja\FreeAiming\*.mds -r
-
-; Readme and license
-README_FreeAiming.txt
-Ninja\FreeAiming\Content\GFA\LICENSE
+; License and README
+LICENSE
+README.md
 
 [EXCLUDE]
+; Exclude sub-directories
+*\Ninja\* -r
+*\_work\* -r
+
+; Exclude source scripts
 _work\Data\Scripts\* -r
-empty -r
+
+; Exclude metadata
+.empty -r
 *.vm
 *.vdf
 *.bat
+*.cfg
+.*
 
 [INCLUDE]
+; License and README
+LICENSE
+README.md
 
 [ENDVDF]
