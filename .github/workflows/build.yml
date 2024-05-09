@@ -35,7 +35,9 @@ jobs:
         run: |
           unlink Ninja/FreeAiming/Content/GFA
           unlink Ninja/FreeAiming/System/GFA
-          unlink Ninja/FreeAiming/Anims_Humans*.mds
+          unlink Ninja/FreeAiming/Anims_Humans.mds
+          unlink Ninja/FreeAiming/Anims_Humans_BowT2.mds
+          unlink Ninja/FreeAiming/Anims_Humans_CBowT2.mds
           mv .github/submodules/GothicFreeAim/_work/data/Scripts/Content/GFA Ninja/FreeAiming/Content/GFA
           mv .github/submodules/GothicFreeAim/_work/data/Scripts/System/GFA Ninja/FreeAiming/System/GFA
           mv .github/submodules/GothicFreeAim/_work/data/Anims/Humans.mds.additions Ninja/FreeAiming/Anims_Humans.mds
