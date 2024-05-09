@@ -54,9 +54,23 @@ const int PERC_OBSERVESUSPECT   = 25;
 
 const int GIL_SEPERATOR_HUM = 16; // Is fixed by the program
 
-instance Focus_Normal(C_Focus);
-instance Focus_Melee(C_Focus);
-instance Focus_Ranged(C_Focus);
-instance Focus_Throw_Item(C_Focus);
-instance Focus_Throw_Mob(C_Focus);
-instance Focus_Magic(C_Focus);
+// Re-define the focus class under different name
+class GFA_C_Focus {
+    var float npc_longrange;
+    var float npc_range1, npc_range2;
+    var float npc_azi;
+    var float npc_elevdo, npc_elevup;
+    var int npc_prio;
+    var float item_range1, item_range2;
+    var float item_azi;
+    var float item_elevdo, item_elevup;
+    var int item_prio;
+    var float mob_range1, mob_range2;
+    var float mob_azi;
+    var float mob_elevdo, mob_elevup;
+    var int mob_prio;
+};
+
+// Expect underlying instance by exact name
+instance Focus_Ranged(GFA_C_Focus);
+instance Focus_Magic(GFA_C_Focus);
