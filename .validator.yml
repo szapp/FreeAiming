@@ -3,6 +3,7 @@
 
 prefix: GFA
 ignore-resource:
+  - _work/Data/Textures/_compiled/LICENSE
 ignore-declaration:
   # These are hard-coded addresses in GFA. This is bad practice, you should never do this!
   - zCVob__classDef
@@ -263,3 +264,10 @@ ignore-declaration:
   - GIL_SEPERATOR_HUM
   - focus_ranged
   - focus_magic
+  - BS_FLAG_INTERRUPTABLE
+  - BS_FLAG_FREEHANDS
+  - BS_STAND
+  - BS_SNEAK
+  - BS_LIE
+  - BS_STUMBLE
+  - BS_MAX
