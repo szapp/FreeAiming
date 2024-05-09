@@ -1,0 +1,4 @@
+[submodule ".github\\submodules\\GothicFreeAim"]
+	path = .github\\submodules\\GothicFreeAim
+	url = https://github.com/szapp/GothicFreeAim.git
+	branch = develop
