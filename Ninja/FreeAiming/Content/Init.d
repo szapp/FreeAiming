@@ -30,7 +30,7 @@ func void Ninja_FreeAiming_Menu(var int menuPtr) {
  */
 func void Ninja_FreeAiming_Init() {
     // Wrapper for "LeGo_Init" to ensure correct LeGo initialization without breaking the mod
-    LeGo_MergeFlags(GFA_LEGO_FLAGS | LeGo_Draw3D);
+    LeGo_MergeFlags(GFA_LEGO_FLAGS);
 
     // Initialize GFA
     GFA_Init(GFA_ALL & ~GFA_REUSE_PROJECTILES);

@@ -69,3 +69,12 @@ class GFA_C_Focus {
 // Expect underlying instance by exact name
 instance Focus_Ranged(GFA_C_Focus);
 instance Focus_Magic(GFA_C_Focus);
+
+// Daedalus black magic (do not try this at home): Require a symbol but do not overwrite
+var int BS_FLAG_INTERRUPTABLE;
+var int BS_FLAG_FREEHANDS;
+var int BS_STAND;
+var int BS_SNEAK;
+var int BS_LIE;
+var int BS_STUMBLE;
+var int BS_MAX;
