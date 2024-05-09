@@ -1,7 +1,8 @@
 Ikarus
 LeGo
 
-Content\Dependencies_G112.d
+Content\Dependencies\base.d
+Content\Dependencies\G112.d
 
 Content\GFA\GFA_G112.src
 
