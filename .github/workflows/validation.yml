@@ -9,6 +9,9 @@ on:
       - "Ninja/**/*.d"
       - "Ninja/**/*.D"
       - "_work/Data/**/*"
+      # Additional triggers for submodules
+      - ".github/submodules/GothicFreeAim"
+      - ".github/submodules/GothicFreeAim/**/*"
   workflow_dispatch:
 
 # These permissions are necessary for creating the check runs
