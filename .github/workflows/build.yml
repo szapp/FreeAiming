@@ -49,17 +49,53 @@ jobs:
         with:
           in: ${{ env.PATCH_NAME }}.vm
 
-      - name: Create release with assests (if tag pushed)
+      - name: Create release with assets (if tag pushed)
         if: startsWith(github.ref, 'refs/tags/') && github.event_name != 'release'
         run: gh release create ${{ env.VERSION }} --generate-notes "${{ env.PATCH_NAME }}.vdf" || exit 0
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-      - name: Upload release assests (if release published)
+      - name: Upload release assets (if release published)
         if: github.event_name == 'release'
         run: gh release upload ${{ env.VERSION }} "${{ env.PATCH_NAME }}.vdf" || exit 0
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Prepare Steam workshop upload
+        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'release'
+        run: |
+          mkdir -p content/Data
+          cp *.vdf content/Data/
+
+      - name: Update in Gothic 1 Steam workshop
+        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'release'
+        uses: m00nl1ght-dev/steam-workshop-deploy@v2
+        with:
+          username: ${{ secrets.STEAM_USERNAME }}
+          configVdf: ${{ secrets.STEAM_CONFIG_VDF }}
+          path: content
+          appId: 65540
+          # Below is the workshop ID
+          publishedFileId: 2786959658
+          changeNote: |
+            Version ${{ env.VERSION }}
+
+            Release notes: https://github.com/${{ github.repository }}/releases/tag/${{ env.VERSION }}
+
+      - name: Update in Gothic 2 Steam workshop
+        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'release'
+        uses: m00nl1ght-dev/steam-workshop-deploy@v2
+        with:
+          username: ${{ secrets.STEAM_USERNAME }}
+          configVdf: ${{ secrets.STEAM_CONFIG_VDF }}
+          path: content
+          appId: 39510
+          # Below is the workshop ID
+          publishedFileId: 2786958841
+          changeNote: |
+            Version ${{ env.VERSION }}
+
+            Release notes: https://github.com/${{ github.repository }}/releases/tag/${{ env.VERSION }}
 
       - name: Upload artifacts
         if: github.event_name == 'workflow_dispatch'
